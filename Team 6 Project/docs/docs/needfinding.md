@@ -1,3 +1,21 @@
+# Survey Summary/Results
+
+- Most people have health insurance, and the rest prefers not to say.
+- Most people visit their doctor 1 to 5 times annually.
+- The wait time for an appointment varies, some only having to wait only 1 to 5 days while others need to wait over 1 month.
+- Most people have to schedule their checkups months before their appointment. Most people have to wait more than 3 months.
+- Most people need to drive 6 to 30 minutes to see their doctor. However, some people need to drive more than an hour.
+- Scheduling difficulty, availability, cost, and past experiences influence their decisions to visit a certain doctor. However, most people have no known issues that influence their decisions.
+- Most people never had a time they couldn’t find a doctor when they needed them. Some had 1 to 2 times they couldn’t find one.
+- Most people said it was not hard to communicate with their doctor.
+- Most people uses internet or other sources for minor health conditions.
+- Most people didn’t have difficulties scheduling an appointment. However, some people had difficulties with wait time and availability of doctors.
+- Most people are satisfied with their experience of finding doctors other than wait times and sometimes low availability. 
+
+Possible trends: Lots of people suffer from long wait times and low availability of doctors. Distance of doctor’s office and long scheduling time are problems for some people as well. 
+
+
+
 # Observations Scenarios:
 Scenario #1:
 (You feel sick and uneasy at school/workplace, what would you do? ([access to health office and internet])
@@ -156,3 +174,7 @@ Goes on Google to check her symptoms and if it doesn’t look concerning just st
 Parents write an email to her doctor to schedule an appointment
 Search up their symptoms to see if the internet can help figure out whats wrong
 
+
+# Diary Studies
+
+Link to form and responses are here: https://docs.google.com/forms/d/1TmSOZOzXZK5gsB5V_7I9FdIQKAFW6AcQH_YvaswEUEU/edit#responses
