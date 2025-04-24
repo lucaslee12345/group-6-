@@ -1,14 +1,55 @@
-import { useState } from 'react'
-
 import '../css/HomePage.css'
 
 import homeBG from '../img/doctorWorking.jpg'
+import docHelp from '../img/doctorhelp.jpeg'
 
 function HomePage() {
+
+
     return (
         <>
-            <img id="topImg" src={homeBG}/>
-            {/*  */}
+            <div id="imgContainer">
+                <img id="topImg" alt="doctor working" src={homeBG}/>
+                <div id="centered">
+                    <p>Welcome!</p>
+                </div>
+                <div id="top-right">
+                    <button>Sign In</button>
+                </div>
+            </div>
+            
+            {/* description */}
+            <div id="infoBox">
+                <div>
+                    
+                </div>
+                <div>
+                    <h3>About Us</h3>
+                    <p>We are a non-profit organization that aims to 
+                    help people gain access to medical advice from 
+                    certified medical professionals on the go!</p>
+                </div>
+            </div>
+
+            {/* find a doctor */}
+            <div id="greyInfoBox">
+                <div>
+                    <p>Normally you have to wait several days and spend a 
+                       lot of money, just so that you could have a doctor 
+                       answer your question about health. Fortunately, these 
+                       constraints are reduced, because you can message them now!</p>
+                    <button>Find a Doctor</button>
+                </div>
+                <div>
+                    <img alt="doctor working" src={docHelp}/>
+                </div>
+            </div>
+
+            {/* sign up now */}
+            <div id="signUpBottom">
+                <p>Want to Join?</p>
+                <button>Sign Up Today</button>
+            </div>
         </>
     )
 }

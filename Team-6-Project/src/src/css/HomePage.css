@@ -1,5 +1,55 @@
+* {
+    font-family: Gill Sans, sans-serif
+}
+
+/* remove any preset padding, goddamnit html */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* fit the entire top */
 #topImg {
     display: block;
-    margin: auto;
-    width: 50%;
+    width: 100vw;
+    max-height: 450px;
+    object-fit: cover;
+}
+
+#imgContainer {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+#centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+#infoBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#greyInfoBox {
+    /* fix: strech it all the way to the end of the screen */
+    background-color: #D9D9D9;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#signUpBottom {
+    text-align: center;
 }
