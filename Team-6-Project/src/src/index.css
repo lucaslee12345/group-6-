@@ -1,3 +1,7 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 html{
   font-family: 'Jacques Francois';font-size: 36px;
   text-align: center;
@@ -16,10 +20,17 @@ html{
   width:30%;
 }
 
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
 p{
   font-size: 50px;
 }
 
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 a, button{
   font-family: 'Jacques Francois';font-size: 18px;
   text-align: center;    
@@ -33,15 +44,22 @@ a, button{
   margin:30px;
 }
 
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
 #signin{
   float:right;
 
 }
+a:hover {
+  color: #535bf2;
 
 label{
   font-size: 18px;
 }
 
+body {
 #aboutTitle{
   font-size:75px;
 }
@@ -96,6 +114,10 @@ label{
 
 *{
   margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
   padding: 0;
   box-sizing: border-box;
 }
@@ -126,6 +148,9 @@ label{
   background-color: gray;
 }
 
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
 .home{
   h1{
       text-align: center;
@@ -166,6 +191,7 @@ label{
   margin-left: 25%;
 }
 
+button {
 .button:hover{
 background-color: white;
 border: 1px solid black;
@@ -217,9 +243,18 @@ dd:hover{
   font-size: 16px;
   border: none;
   border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
   background-color: #ddd;
   cursor: pointer;
+  transition: border-color 0.25s;
 }
+button:hover {
+  border-color: #646cff;
 
 .settings-buttons button.delete {
   color: #b30000;
@@ -234,6 +269,9 @@ dd:hover{
   background-color: #f1f1f1;
   border-top: 1px solid #ccc;
 }
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 
 .nav-bar button {
   background: none;
@@ -242,6 +280,10 @@ dd:hover{
   cursor: pointer;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
 .popup-overlay {
   display: none;
   position: fixed;
@@ -254,7 +296,7 @@ dd:hover{
   align-items: center;
   z-index: 1000;
   }
-  
+
   .popup {
   background: white;
   padding: 30px;
@@ -264,19 +306,19 @@ dd:hover{
   display: flex;
   flex-direction: column;
   }
-  
+
   .popup input {
   margin: 10px 0;
   padding: 10px;
   font-size: 14px;
   }
-  
+
   .popup button {
   margin-top: 10px;
   padding: 10px;
   cursor: pointer;
   }
-  
+
   .close {
   position: absolute;
   top: 10px;
@@ -284,7 +326,9 @@ dd:hover{
   font-size: 20px;
   cursor: pointer;
   }
-  
+  a:hover {
+    color: #747bff;
+
   .delete-btn {
   background-color: red;
   color: white;
