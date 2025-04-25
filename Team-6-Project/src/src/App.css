@@ -1,8 +1,17 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
 html{
   font-family: 'Jacques Francois';font-size: 36px;
   text-align: center;
 }
 
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
 #about{
   text-align:right;
   margin: 10px;
@@ -45,12 +54,16 @@ label{
 #aboutTitle{
   font-size:75px;
 }
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
 
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 
 /* Below is the code for homepage */
 
@@ -65,6 +78,9 @@ label{
   border: 1px solid black;
 }
 
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
 #logo{
   height: 30px;
   width: 180px;
@@ -88,6 +104,8 @@ label{
       text-align: center;
       margin-bottom: 20px;
   }
+  to {
+    transform: rotate(360deg);
   img{
       border-radius: 100000000px;
       height: 175px;
@@ -100,6 +118,9 @@ label{
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
 
 .button {
   width: 50%;
@@ -154,10 +175,14 @@ border: 1px solid black;
    }
 }
 
+.card {
+  padding: 2em;
 dd:hover{
   background-color: rgb(184, 184, 184);
 }
 
+.read-the-docs {
+  color: #888;
 .settings-buttons {
   display: flex;
   flex-direction: column;
@@ -207,7 +232,7 @@ dd:hover{
   align-items: center;
   z-index: 1000;
   }
-  
+
   .popup {
   background: white;
   padding: 30px;
@@ -217,19 +242,19 @@ dd:hover{
   display: flex;
   flex-direction: column;
   }
-  
+
   .popup input {
   margin: 10px 0;
   padding: 10px;
   font-size: 14px;
   }
-  
+
   .popup button {
   margin-top: 10px;
   padding: 10px;
   cursor: pointer;
   }
-  
+
   .close {
   position: absolute;
   top: 10px;
@@ -237,7 +262,7 @@ dd:hover{
   font-size: 20px;
   cursor: pointer;
   }
-  
+
   .delete-btn {
   background-color: red;
   color: white;
