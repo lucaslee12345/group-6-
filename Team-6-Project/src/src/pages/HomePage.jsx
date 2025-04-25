@@ -3,9 +3,7 @@ import '../css/HomePage.css'
 import homeBG from '../img/doctorWorking.jpg'
 import docHelp from '../img/doctorhelp.jpeg'
 
-function HomePage() {
-
-
+function HomePage({ setPage }) {
     return (
         <>
             <div id="imgContainer">
@@ -14,7 +12,7 @@ function HomePage() {
                     <p>Welcome!</p>
                 </div>
                 <div id="top-right">
-                    <button>Sign In</button>
+                    <button onClick={() => setPage("login")}>Sign In</button>
                 </div>
             </div>
             
@@ -48,7 +46,7 @@ function HomePage() {
             {/* sign up now */}
             <div id="signUpBottom">
                 <p>Want to Join?</p>
-                <button>Sign Up Today</button>
+                <button onClick={() => setPage("login")}>Sign Up Today</button>
             </div>
         </>
     )

@@ -1,17 +1,23 @@
-import './css/HomePage.css'
+import React, { useState } from "react";
 
-// import windows
-import HomgePage from './pages/HomePage'
-
+// windows
+import HomePage from "./pages/HomePage.jsx";
+import Login from "./pages/Login.jsx";
 
 function App() {
+	const [page, setPage] = useState("home");
 
-  return (
-    <>
-      {/* handle page navigation logic here */}
-      <HomgePage></HomgePage>
-    </>
-  )
+	// firebase variables bet set here
+
+
+	return (
+		<>
+			{/* handle page navigation logic here */}
+			{page==="home" && <HomePage setPage={setPage} />}
+			{page==="login" && <Login setPage={setPage} />}
+			{page==="profile" && <Profile setPage={setPage}/>}
+		</>
+	)
 }
 
 export default App
