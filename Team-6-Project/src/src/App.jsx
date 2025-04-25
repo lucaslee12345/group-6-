@@ -10,7 +10,6 @@ import HomgePage from './pages/HomePage'
 
 function App() {
   const [count, setCount] = useState(0)
-
   return (
     <>
       <div>
@@ -38,4 +37,5 @@ function App() {
     </>
   )
 }
+
 export default App
