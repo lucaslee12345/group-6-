@@ -33,7 +33,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       {/* handle page navigation logic here */}
-      <HomgePage></HomgePage>
+      <HomePage></HomePage>
     </>
   )
 }
