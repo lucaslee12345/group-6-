@@ -5,7 +5,7 @@ import './App.css'
 import './css/HomePage.css'
 
 // import windows
-import HomgePage from './pages/HomePage'
+import HomePage from './pages/HomePage'
 
 
 function App() {
