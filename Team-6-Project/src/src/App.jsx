@@ -9,6 +9,7 @@ function App() {
 
 	// firebase variables bet set here
 
+	// previous page, so when you press the back arrow, it goes back the previous page
 
 	return (
 		<>

@@ -2,15 +2,7 @@ import { initializeApp } from "firebase/app";
 import { 
   getAuth, 
   GoogleAuthProvider, 
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged 
 } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  updateDoc
-} from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,10 +23,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Search for accounts inputted in the sign in <-log in, log out
+// initialize services
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
-// Create new fields when new accounts are registered
-
-// pull fields of doctors out from db(creating doctors is NOT part of the thing, manually create in firebase)
-
-// text messaging between two(just create filler test because we do not have time for a fully functioning text)
+export { auth, db, googleProvider };
