@@ -3,6 +3,7 @@ import React, { useState } from "react";
 // windows
 import HomePage from "./pages/HomePage.jsx";
 import Login from "./pages/Login.jsx";
+import Profile from "./pages/Profile.jsx";
 
 function App() {
 	const [page, setPage] = useState("home");
@@ -21,4 +22,4 @@ function App() {
 	)
 }
 
-export default App
+export default App;

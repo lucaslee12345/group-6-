@@ -24,6 +24,7 @@ function Login({ setPage }) {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
+      setPage('profile');
     } catch (error) {
       console.error('Google login failed:', error);
     }
@@ -54,6 +55,7 @@ function Login({ setPage }) {
         });
   
       alert('Registration successful');
+      setPage("profile");
     } catch (error) {
       console.error('Registration error:', error.message);
       alert(error.message);
@@ -70,6 +72,7 @@ function Login({ setPage }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
+      setPage("profile"); // navigate to the next page
     } catch (error) {
       console.error('Login error:', error.message);
       alert(error.message);
@@ -192,7 +195,7 @@ function Login({ setPage }) {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button onClick={handleEmailSignIn}>Sign In</button>
+            <button onClick={() => {handleEmailSignIn}}>Sign In</button>
             <button onClick={handleGoogleSignIn}>Sign in with Google</button>
             <p>
               New here?{' '}
@@ -200,31 +203,31 @@ function Login({ setPage }) {
                 Register
               </button>
             </p>
-            <button onClick={() => setPage('home')}>Back</button>
+            <button onClick={() => {setPage('home');}}>Back</button>
           </div>
         )
       ) : (
         <div>
-          <h2>Welcome, {user.name}</h2>
-          <p>Email: {user.email}</p>
-          <button onClick={handleLogout}>Log Out</button>
+            <h2>Welcome, {user.name}</h2>
+            <p>Email: {user.email}</p>
+            <button onClick={handleLogout}>Log Out</button>
 
-          <h3>Edit Profile</h3>
-          <div className="inputRow">
-            <p>Nickname:</p>
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-            />
+            <h3>Edit Profile</h3>
+            <div className="inputRow">
+                <p>Nickname:</p>
+                <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                />
           </div>
           <div className="inputRow">
-            <p>Age:</p>
-            <input
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-            />
+                <p>Age:</p>
+                <input
+                type="number"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                />
           </div>
           <button onClick={handleSaveProfile}>Save Profile</button>
         </div>
