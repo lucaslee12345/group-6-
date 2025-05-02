@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    overflow-y: scroll; /* Ensures scrolling is always available */
+}
+
+#profile {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: block;
+    margin: 10px auto;
+    border: 2px solid black;
+}
+
+#logo {
+    height: 30px;
+    width: 180px;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid black;
+}
+
+.top-bar {
+    background-color: lightgray;
+    padding: 10px 0;
+    border-bottom: 2px solid black;
+}
+
+.home h1, .home h2 {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.home img {
+    border-radius: 50%;
+    height: 175px;
+    width: 175px;
+    display: block;
+    margin: 20px auto;
+    border: 2px solid black;
+}
+
+.body-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.button {
+    width: 60%;
+    background-color: rgb(161, 84, 255);
+    color: black;
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.button:hover {
+    background-color: white;
+    border-color: gray;
+}
+
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgray;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 2px solid black;
+}
+
+.nav-bar button {
+    background: none;
+    border: 2px solid black;
+    border-radius: 15px; /* Smooth, rounded corners */
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: black;
+    padding: 10px 20px;
+    transition: color 0.3s, border-color 0.3s, background-color 0.3s;
+}
+
+.nav-bar button:hover {
+    color: white;
+    background-color: black; /* Adds a background color on hover for visibility */
+    border-color: black;
+}

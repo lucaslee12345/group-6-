@@ -6,6 +6,7 @@ import docHelp from '../img/doctorhelp.jpeg'
 function HomePage({ setPage }) {
     return (
         <>
+        
             <div id="imgContainer">
                 <img id="topImg" alt="doctor working" src={homeBG}/>
                 <div id="centered">
