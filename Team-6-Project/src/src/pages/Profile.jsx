@@ -4,33 +4,34 @@ import '../css/Profile.css';
 function Profile({ setPage }) {
     return (
         <>
-            <div>
-                {/* add a button with the profile icon  */}
+            <div className="top-bar">
+                <img id="logo" src="INSERT IMAGE OF DR. FINDER LOGO" alt="Doctor Finder Logo" />
+            </div>
+            <br />
+            <div className="home">
+                <h1>Home</h1>
+                <h2>Hello, USERID!</h2>
+                <img src="FILLER PROFILE" alt="User Profile" />
             </div>
 
-            <div>
-                <h3>Doctor Finder</h3>  
+            <div className="body-buttons">
+                <button className="button" onClick={() => setPage('changeUser')}>Change User</button>
+                <br />
+                <button className="button" onClick={() => setPage('changePassword')}>Change Password</button>
+                <br />
+                <button className="button" onClick={() => setPage('changeEmail')}>Change Email</button>
+                <br />
+                <button className="button" onClick={() => setPage('logout')}>Log Out</button>
+                <br />
+                <button className="button" onClick={() => setPage('deleteAccount')}>Delete Account</button>
+                <br />
             </div>
 
-            <div>
-                <h2></h2>
-            </div>
-
-            <div>
-                <button >Change User</button><br/>
-                <button >Change Password</button><br/>
-                <button >Change Email</button><br/>
-                <button >Log Out</button><br/>
-                {/* firebase feature */}
-                <button >Delete Account</button> <br/>
-            </div>
-
-            {/* navbar, this will serve as  */}
-            <div class="nav-bar">
-                <button onclick="navigateTo('placeholder.html')">&#8592;</button>
-                <button onclick="navigateTo('placeholder.html')">&#8962;</button>
-                <button onclick="navigateTo('placeholder.html')">&#9788;</button>
-            </div>
+            <footer className="nav-bar">
+                <button className="button" onClick={() => setPage('back')}>&#8592;</button>
+                <button className="button" onClick={() => setPage('home')}>&#8962;</button>
+                <button className="button" onClick={() => setPage('settings')}>&#9788;</button>
+            </footer>
         </>
     );
 }
