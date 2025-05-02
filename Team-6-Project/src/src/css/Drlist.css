@@ -1,0 +1,26 @@
+/* Add CSS styles for your web site here and use them in index.html. */
+p{
+    margin-left: 19%;
+    
+}
+
+nav ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    gap: 130px;
+    flex-wrap: wrap;
+    background-color: rgb(217, 226, 229);
+    padding: 30px;
+    
+}
+
+nav ul li a{
+    color: rgb(0, 0, 0);
+    text-decoration: wavy;
+    padding: 10px;
+}
+/* nav ul li a:hover{
+    background-color: rgb(195, 120, 120);
+} */

@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import HomePage from "./pages/HomePage.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
+import Dmlist from "./pages/Dmlist.jsx";
+import Drlist from "./pages/Drlist.jsx";
 
 function App() {
 	const [page, setPage] = useState("home");
@@ -18,6 +20,8 @@ function App() {
 			{page==="home" && <HomePage setPage={setPage} />}
 			{page==="login" && <Login setPage={setPage} />}
 			{page==="profile" && <Profile setPage={setPage}/>}
+			{page==="dmlist" && <Dmlist setPage={setPage}/>}
+			{page==="drlist" && <Drlist setPage={setPage}/>}
 		</>
 	)
 }
