@@ -6,6 +6,8 @@ import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Dmlist from "./pages/Dmlist.jsx";
 import Drlist from "./pages/Drlist.jsx";
+import Chatbox from "./pages/Chatbox.jsx";
+import Settings from "./pages/Settings.jsx";
 
 function App() {
 	const [page, setPage] = useState("home");
@@ -22,6 +24,8 @@ function App() {
 			{page==="profile" && <Profile setPage={setPage}/>}
 			{page==="dmlist" && <Dmlist setPage={setPage}/>}
 			{page==="drlist" && <Drlist setPage={setPage}/>}
+			{page==="chatbox" && <Chatbox setPage={setPage}/>}
+			{page==="settings" && <Settings setPage={setPage}/>}
 		</>
 	)
 }

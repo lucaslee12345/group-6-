@@ -32,11 +32,12 @@ function Profile({ setPage}) {
           <br></br>
           <br></br>
           <br></br>
+          <br></br>
     
           {/* Rest of the Profile Page */}
           <div>
             <h3>Dr.Finder</h3>
-          </div>
+          </div>  
 
           <div>
             <h1 style={{fontSize:'50px'}}>Welcome, <br></br> Name</h1>
@@ -87,6 +88,27 @@ function Profile({ setPage}) {
               onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
             >
               DrList
+            </button>
+            <br>
+            </br>
+            <br></br>
+            <button
+              onClick={() => setPage('chatbox')}
+              style={{
+                fontSize: '30px',
+                padding: '30px 100px',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                backgroundColor: '#2196F3', // Blue background
+                color: 'white',
+                border: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
+                transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
+              onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
+            >
+              Chat
             </button>
             <br />
             <br />
