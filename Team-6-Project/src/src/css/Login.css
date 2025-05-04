@@ -17,7 +17,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.625em auto; /* 10px */
+    margin-top: 0.625em; /* 10px */
+    margin-bottom: 0.625em; /* 10px */
     max-width: 26.5625em; /* 425px */
 }
 
@@ -59,3 +60,27 @@
     background-color: #b1b2b3; /* Darker blue on hover */
     transform: scale(1.05); /* Slightly enlarge button on hover */
 }
+
+.loginContainer {
+    position : absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.1em solid #ccc; /* 1px */
+    box-shadow: 0 0.3125em 0.625em rgba(0, 0, 0, 0.1); /* 5px */
+    border-radius: 1em;
+    max-width: 25em;
+    animation: fadeIn 0.5s;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    background-color: #f9f9f9;
+
+}
+
+body {
+    background: linear-gradient(135deg, #2196F3, #dba238e5); /* Gradient background */
+    height: 100vh;
+    
+    
+    
+  }

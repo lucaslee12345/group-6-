@@ -138,7 +138,7 @@ function Profile({ setPage}) {
           
           
           >
-            <nav>
+            <nav style={{  }}>
               <ul
                 style={{
                   display: 'flex',
@@ -146,7 +146,7 @@ function Profile({ setPage}) {
                   listStyle: 'none',
                   padding: 0,
                   margin: '30px 0', // Add spacing at the bottom
-                  backgroundColor: '#f9f9f9',
+                 
                   
                 }}
               >

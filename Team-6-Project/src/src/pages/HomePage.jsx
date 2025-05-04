@@ -13,9 +13,7 @@ function HomePage({ setPage }) {
                     <h1>Dr. Finder</h1>
                    
                 </div>
-                <div id="top-right">
-                    <button onClick={() => setPage("login")}>Sign In</button>
-                </div>
+                
             </div>
             
             {/* description */}
