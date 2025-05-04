@@ -135,104 +135,113 @@ function Login({ setPage }) {
   };
 
   return (
-    <div className="loginContainer">
-      <h1>Doctor Finder</h1>
     
-      {!user ? (
-        register ? (
-          <div>
-            <h2>Register</h2>
-            <div className="inputRow">
-              <p>Email:</p>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+      <div className="loginContainer">
+        
+        <div>
+         
+        
+      
+        {!user ? (
+          register ? (
+            <div style={{paddingTop:'3em', paddingBottom:'3em', paddingLeft:'3em', paddingRight:'3em', animation: 'fadeIn 1s'}}>
+              
+              <h2>Register</h2>
+              <div className="inputRow">
+                <p>Email:</p>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="inputRow">
+                <p>Password:</p>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className="inputRow">
+                <p>Confirm Password:</p>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <button onClick={handleRegister}>Register</button>
+              <p>
+                Already have an account?{' '}
+                <button onClick={() => { setRegister(false); clearFields(); }}>
+                  Sign in
+                </button>
+              </p>
+              <button onClick={() => setPage('home')}>Back To Homepage</button>
             </div>
-            <div className="inputRow">
-              <p>Password:</p>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            
+          
+          ) : (
+            <div>
+              <img id="icon" src={icon} alt="user icon" style={{marginTop:'1.25em', width:'30%', border:'2em', borderColor:'black'}}/>
+              <h2 style={{marginTop:'-1em'}}>Log In</h2>
+              <div className="inputRow">
+                <p>Email:</p>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="inputRow">
+                <p>Password:</p>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <button onClick={() => {handleEmailSignIn}}>Sign In</button>
+              <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+              <p>
+                New here?{' '}
+                <button onClick={() => { setRegister(true); clearFields(); }}>
+                  Register
+                </button>
+              </p>
+              <button onClick={() => {setPage('home');}}>Back</button>
             </div>
-            <div className="inputRow">
-              <p>Confirm Password:</p>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <button onClick={handleRegister}>Register</button>
-            <p>
-              Already have an account?{' '}
-              <button onClick={() => { setRegister(false); clearFields(); }}>
-                Sign in
-              </button>
-            </p>
-            <button onClick={() => setPage('home')}>Back To Homepage</button>
-          </div>
+          )
         ) : (
           <div>
-            <img id="icon" src={icon} alt="user icon" />
-            <h2>Log In</h2>
-            <div className="inputRow">
-              <p>Email:</p>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="inputRow">
-              <p>Password:</p>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button onClick={() => {handleEmailSignIn}}>Sign In</button>
-            <button onClick={handleGoogleSignIn}>Sign in with Google</button>
-            <p>
-              New here?{' '}
-              <button onClick={() => { setRegister(true); clearFields(); }}>
-                Register
-              </button>
-            </p>
-            <button onClick={() => {setPage('home');}}>Back</button>
-          </div>
-        )
-      ) : (
-        <div>
-            <h2>Welcome, {user.name}</h2>
-            <p>Email: {user.email}</p>
-            <button onClick={handleLogout}>Log Out</button>
+              <h2>Welcome, {user.name}</h2>
+              <p>Email: {user.email}</p>
+              <button onClick={handleLogout}>Log Out</button>
 
-            <h3>Edit Profile</h3>
+              <h3>Edit Profile</h3>
+              <div className="inputRow">
+                  <p>Nickname:</p>
+                  <input
+                  type="text"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  />
+            </div>
             <div className="inputRow">
-                <p>Nickname:</p>
-                <input
-                type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                />
+                  <p>Age:</p>
+                  <input
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  />
+            </div>
+            <button onClick={handleSaveProfile}>Save Profile</button>
           </div>
-          <div className="inputRow">
-                <p>Age:</p>
-                <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                />
-          </div>
-          <button onClick={handleSaveProfile}>Save Profile</button>
+        )}
         </div>
-      )}
-    </div>
+      </div>
+      
   );
 }
 
