@@ -1,5 +1,10 @@
 * {
-    font-family: Gill Sans, sans-serif
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h3, p{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight:bold;
 }
 
 /* remove any preset padding, goddamnit html */
@@ -8,12 +13,25 @@ body {
     padding: 0;
 }
 
+#title{
+    font-size: 70px;
+}
+
 /* fit the entire top */
 #topImg {
     display: block;
     width: 100vw;
     max-height: 450px;
-    object-fit: cover;
+    object-fit: cover;   
+    filter:blur(10px);
+}
+
+button{
+    border-radius:10px;
+    background-color:rgb(168, 14, 168);
+    color:white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size:16px;
 }
 
 #imgContainer {
@@ -52,4 +70,7 @@ body {
 
 #signUpBottom {
     text-align: center;
+    background-image: linear-gradient(white, rgb(212, 212, 212));
+    min-height: 20vh;
+
 }
