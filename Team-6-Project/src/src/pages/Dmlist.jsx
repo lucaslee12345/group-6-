@@ -1,8 +1,13 @@
 import '../css/Dmlist.css'
 import profilepicture from '../img/9706583.png'
-
+import { useState } from 'react';
 
 function Dmlist({ setPage }) {
+  const [isPanelVisible, setIsPanelVisible] = useState(false);
+
+  const togglePanel = () => {
+    setIsPanelVisible(!isPanelVisible);
+  };
   const DoctorBox = ({ name, message }) => (
     <div
       style={{
@@ -62,61 +67,25 @@ function Dmlist({ setPage }) {
   return (
     <>
     <div id='container44'>
-               <img
-  src={profilepicture}
-  width="60px" // Slightly larger for better visibility
-  height="60px"
-  style={{
-    float: 'right',
-    borderRadius: '50%', // Make it circular
-   
-   
-    border: '2px solid white', // Add a white border for contrast
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add a subtle shadow
-     // Add spacing around the image
-    transition: 'transform 0.2s, box-shadow 0.2s', // Smooth hover effect
+      <img
+          src={profilepicture}
+          className="profile-icon"
+          alt="Profile"
+      />
+
+
+
+
+
+
+
+      <h2 style={{ fontSize: 'large', textAlign: 'center', marginTop:'1.5em'  }}>Dr.Finder</h2>
     
-  }}
-onMouseOver={(e) => {
-        e.currentTarget.style.transform = 'scale(1.02)';
-        e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.transform = 'scale(1)';
-        e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-      }}
-
-  alt="Profile"
-/>
-
-
-
-
-
-
-
-      <h2 style={{ fontSize: 'large', textAlign: 'center', marginLeft: '3.75em'  }}>Dr.Finder</h2>
-      <h2 style={{ fontSize: 'large', textAlign: 'center', marginLeft: '3.75em'  }}>Click to Chat</h2>
-      <h2
-        style={{
-          fontSize: 'large',
-          textAlign: 'center',
-          
-          border: '2px solid #333', // Add a border around the box
-          borderRadius: '10px', // Rounded corners
-          padding: '10px 20px', // Add padding inside the box
-          display: 'inline-block', // Ensure the box wraps tightly around the text
-          backgroundColor: 'white', // Optional: Add a background color
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Optional: Add a subtle shadow
-          marginLeft: '3.75em'
-        }}
-      >  
-  Dm List
-        
-</h2>
+      
 
 
       {/* Reusable DoctorBox components */}
+    <div style={{ marginTop: '1em', padding: '20px' }}>
       <DoctorBox name="Dr.Ren (MD)" message="If you are sick visit me." />
       <DoctorBox name="Dr.Smith (MD)" message="Appointment is on March 6th." />
       <DoctorBox name="Dr.Joey (MD)" message="Could you give me some advice?" />
@@ -136,81 +105,23 @@ onMouseOver={(e) => {
       <DoctorBox name="Dr.Nelson (MD)" message="Come over." />
       <DoctorBox name="Dr.Kim (MD)" message="Wanna hangout?" />
       <DoctorBox name="Dr.Apple (MD)" message="Yes, yes, yes." />
+    </div>
 
-      <div>
-        <nav>
-          <ul
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              listStyle: 'none',
-              padding: 0,
-              margin: '30px 0', // Add spacing at the bottom
-            }}
-          >
-            <li style={{ margin: '0 15px' }}>
-              <button
-                onClick={() => setPage('profile')}
-                style={{
-                  fontSize: '18px',
-                  padding: '15px 30px',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  backgroundColor: '#2196F3', // Green background
-                  color: 'white',
-                  border: 'none',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-                  transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-                }}
-                onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-                onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-              >
-                &#8592; Back
-              </button>
-            </li>
-            <li style={{ margin: '0 15px' }}>
-              <button
-                onClick={() => setPage('profile')}
-                style={{
-                  fontSize: '18px',
-                  padding: '15px 30px',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  backgroundColor: '#2196F3', // Blue background
-                  color: 'white',
-                  border: 'none',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-                  transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-                }}
-                onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-                onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-              >
-                &#8962; Home
-              </button>
-            </li>
-            <li style={{ margin: '0 15px' }}>
-              <button
-                onClick={() => setPage('settings')}
-                style={{
-                  fontSize: '18px',
-                  padding: '15px 30px',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  backgroundColor: '#2196F3', // Red background
-                  color: 'white',
-                  border: 'none',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-                  transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-                }}
-                onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-                onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-              >
-                &#9788; Settings
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <div id='newnavbar'>
+            <button onClick={togglePanel}>☰</button>
+              <div className={`sliding-panel ${isPanelVisible ? 'visible' : ''}`}>
+                <button className="close-panel" onClick={togglePanel}>
+                  ✖
+                </button>
+                <ul>
+                <li onClick={() => setPage('profile')}>Home</li>
+                  <li onClick={() => setPage('dmlist')}>DmList</li>
+                  <li onClick={() => setPage('drlist')}>DrList</li>
+                  <li onClick={() => setPage('chatbox')}>Chat</li>
+                  <li onClick={() => setPage('settings')}>Settings</li>
+                </ul>
+              </div>
+          </div>
     </div>
 </>
 

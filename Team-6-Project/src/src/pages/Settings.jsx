@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../css/Settings.css";
 import profilepicture from "../img/9706583.png"; // Adjust the path as necessary
 
+
+
 const validatePasswordMatch = (password, confirmPassword) => {
   return password === confirmPassword;
 };
@@ -83,140 +85,129 @@ const Settings = ({ setPage }) => {
     }
   };
 
+
+  const [isPanelVisible, setIsPanelVisible] = useState(false);
+
+  const togglePanel = () => {
+    setIsPanelVisible(!isPanelVisible);
+  };
   return (
+    
+
+
+
+
+
+
+
+
     <div className="settings-page">
-      <img src={profilepicture} className="profile-icon" alt="Profile" />
+      
+
+
+      
+      <img
+          src={profilepicture}
+          className="profile-icon"
+          alt="Profile"
+                      />
+        <div id='newnavbar'>
+            <button onClick={togglePanel} style={{}}>☰</button>
+              <div className={`sliding-panel ${isPanelVisible ? 'visible' : ''}`}>
+                <button className="close-panel" onClick={togglePanel}>
+                  ✖
+                </button>
+                <ul>
+                  <li onClick={() => setPage('profile')}>Home</li>
+                  <li onClick={() => setPage('dmlist')}>DmList</li>
+                  <li onClick={() => setPage('drlist')}>DrList</li>
+                  <li onClick={() => setPage('chatbox')}>Chat</li>
+                  <li onClick={() => setPage('settings')}>Settings</li>
+                </ul>
+              </div>
+          </div>
+
+
       <header>
-        <h1>Dr. Finder</h1>
-        <h2>Settings</h2>
+        <h1 style={{marginTop:'3em'}}>Dr.Finder</h1>
+        <h1 style={{fontSize:'50px'}}>Settings</h1>
       </header>
       <img
         src={profilepicture}
-        style={{ width: "10%", height: "10%", marginTop: "-27em" }}
+        style={{ width: "200px", height: "2",  borderRadius: "50%", position: "absolute", marginTop: "12.3em" }}
         alt="Profile"
       />
-      <div className="settings-buttons" style={{ marginTop: "-25em" }}>
-        <button
+      <div className="settings-buttons" style={{position:'absolute', marginTop:'28em', }}>       
+        <button 
           onClick={() => setPage("changeUser")}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#c9c7c7")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#ddd")}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.backgroundColor = "#c9c7c7";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.backgroundColor = "#ddd";
+          }}
+          
         >
           Change User
         </button>
         <button
           onClick={() => openPopup("password")}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#c9c7c7")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#ddd")}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.backgroundColor = "#c9c7c7";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.backgroundColor = "#ddd";
+          }}
         >
           Change Password
         </button>
         <button
           onClick={() => openPopup("email")}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#c9c7c7")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#ddd")}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.backgroundColor = "#c9c7c7";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.backgroundColor = "#ddd";
+          }}
         >
           Change Email
         </button>
         <button
-          onClick={() => setPage("logout")}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#c9c7c7")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#ddd")}
+          onClick={() => setPage("home")}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.backgroundColor = "#c9c7c7";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.backgroundColor = "#ddd";
+          }}
         >
           Log Out
         </button>
         <button
           className="delete"
           onClick={() => openPopup("delete")}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#c9c7c7")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#ddd")}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.backgroundColor = "#c9c7c7";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.backgroundColor = "#ddd";
+          }}
         >
           Delete Account
         </button>
       </div>
 
-      <div
-        style={{
-          marginTop: "-15em",
-          justifyContent: "center",
-          display: "flex",
-          
-        }}
-      >
-        <nav>
-              <ul
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: '30px 0', // Add spacing at the bottom
-                  backgroundColor: '#f9f9f9',
-                  
-                }}
-              >
-                <li style={{ margin: '0 15px' }}>
-                  <button
-                    onClick={() => setPage('profile')}
-                    style={{
-                      fontSize: '18px',
-                      padding: '15px 30px',
-                      borderRadius: '12px',
-                      cursor: 'pointer',
-                      backgroundColor: '#2196F3', // Blue background
-                      color: 'white',
-                      border: 'none',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-                      transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-                    }}
-                    onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-                    onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-                  >
-                    &#8592; Back
-                  </button>
-                </li>
-                <li style={{ margin: '0 15px' }}>
-                  <button
-                    onClick={() => setPage('profile')}
-                    style={{
-                      fontSize: '18px',
-                      padding: '15px 30px',
-                      borderRadius: '12px',
-                      cursor: 'pointer',
-                      backgroundColor: '#2196F3', // Blue background
-                      color: 'white',
-                      border: 'none',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-                      transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-                    }}
-                    onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-                    onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-                  >
-                    &#8962; Home
-                  </button>
-                </li>
-                <li style={{ margin: '0 15px' }}>
-                  <button
-                    onClick={() => setPage('settings')}
-                    style={{
-                      fontSize: '18px',
-                      padding: '15px 30px',
-                      borderRadius: '12px',
-                      cursor: 'pointer',
-                      backgroundColor: '#2196F3', // Blue background
-                      color: 'white',
-                      border: 'none',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-                      transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-                    }}
-                    onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-                    onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-                  >
-                    &#9788; Settings
-                  </button>
-                </li>
-              </ul>
-            </nav>
-      </div>
+     
 
       {/* Popup Modals */}
       {popup === "password" && (
