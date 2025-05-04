@@ -1,47 +1,61 @@
 * {
     text-align: center;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    
 }
 
 .topDivContainer {
-    padding-top: 50px;
+    padding-top: 3.125em; /* 50px */
 }
 
 #icon {
     width: 10%;
-    border-radius: 90px;
-    min-width: 100px;
-    margin-bottom: 20px;
+    border-radius: 5.625em; /* 90px */
+    min-width: 6.25em; /* 100px */
+    margin-bottom: 1.25em; /* 20px */
 }
 
 .inputRow {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px auto;
-    max-width: 425px;
+    margin: 0.625em auto; /* 10px */
+    max-width: 26.5625em; /* 425px */
 }
 
 .inputRow p {
-    margin: 0 10px 0 0;
-    width: 150px;
+    margin: 0 0.625em 0 0; /* 0 10px 0 0 */
+    width: 9.375em; /* 150px */
     text-align: right;
 }
 
 .inputRow input {
-    width: 200px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    width: 12.5em; /* 200px */
+    padding: 0.3125em; /* 5px */
+    border-radius: 0.3125em; /* 5px */
+    border: 0.0625em solid #ccc; /* 1px */
 }
 
 #sameLine {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* gap: 10px; */
-    margin-top: 15px;
+    /* gap: 0.625em; */ /* 10px */
+    margin-top: 0.9375em; /* 15px */
 }
 
+.loginContainer button {
+    padding: 0.3em 0.5em; /* Adjust padding for size */
+    margin: 0.1em;
+    font-size: 0.9em; /* Base font size */
+    font-weight: bold; /* Make text bold */
+    color: rgb(0, 0, 0); /* Text color */
+    background-color: #f9f9f9; /* Primary blue color */
+    border-color: black;
+    border-radius: 0.3em; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
 
+.loginContainer button:hover {
+    background-color: #b1b2b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}

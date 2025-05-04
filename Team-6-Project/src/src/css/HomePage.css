@@ -1,43 +1,23 @@
+/* General Reset */
 * {
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-h3, p{
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-weight:bold;
-}
-
-/* remove any preset padding, goddamnit html */
-body {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
-#title{
-    font-size: 70px;
-}
-
-/* fit the entire top */
-#topImg {
-    display: block;
-    width: 100vw;
-    max-height: 450px;
-    object-fit: cover;   
-    filter:blur(10px);
-}
-
-button{
-    border-radius:10px;
-    background-color:rgb(168, 14, 168);
-    color:white;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size:16px;
-}
-
+/* Background Image Section */
 #imgContainer {
     position: relative;
     text-align: center;
     color: white;
+}
+
+#topImg {
+    width: 100%;
+    height: 37.5em; /* 60vh converted to em assuming 1em = 16px */
+    object-fit: cover;
+    filter: brightness(70%);
 }
 
 #centered {
@@ -45,32 +25,120 @@ button{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-size: 3rem; /* 48px */
+    font-weight: bold;
+    text-shadow: 0.125em 0.125em 0.3125em rgba(0, 0, 0, 0.7); /* 2px 2px 5px */
 }
 
 #top-right {
     position: absolute;
-    top: 8px;
-    right: 16px;
+    top: 1.25em; /* 20px */
+    right: 1.25em; /* 20px */
 }
 
+#top-right button {
+    padding: 0.625em 1.25em; /* 10px 20px */
+    font-size: 1rem; /* 16px */
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 0.3125em; /* 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#top-right button:hover {
+    background-color: #1769aa;
+}
+
+/* Info Box Section */
 #infoBox {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    padding: 3.125em 1.25em; /* 50px 20px */
+    background-color: #f9f9f9;
 }
 
+#infoBox h3 {
+    font-size: 2rem; /* 32px */
+    color: #333;
+    margin-bottom: 0.625em; /* 10px */
+}
+
+#infoBox p {
+    font-size: 1.2rem; /* 19.2px */
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Grey Info Box Section */
 #greyInfoBox {
-    /* fix: strech it all the way to the end of the screen */
-    background-color: #D9D9D9;
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 3.125em 1.25em; /* 50px 20px */
+    background-color: #e0e0e0;
 }
 
+#greyInfoBox div {
+    flex: 1;
+    padding: 1.25em; /* 20px */
+}
+
+#greyInfoBox img {
+    max-width: 100%;
+    border-radius: 0.625em; /* 10px */
+    box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); /* 4px 6px */
+}
+
+#greyInfoBox p {
+    font-size: 1.2rem; /* 19.2px */
+    color: #555;
+    line-height: 1.6;
+}
+
+#greyInfoBox button {
+    margin-top: 1.25em; /* 20px */
+    padding: 0.625em 1.25em; /* 10px 20px */
+    font-size: 1rem; /* 16px */
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 0.3125em; /* 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#greyInfoBox button:hover {
+    background-color: #1769aa;
+}
+
+/* Sign Up Bottom Section */
 #signUpBottom {
     text-align: center;
-    background-image: linear-gradient(white, rgb(212, 212, 212));
-    min-height: 20vh;
+    padding: 3.125em 1.25em; /* 50px 20px */
+    background-color: #2196F3;
+    color: white;
+}
 
+#signUpBottom p {
+    font-size: 1.5rem; /* 24px */
+    margin-bottom: 1.25em; /* 20px */
+}
+
+#signUpBottom button {
+    padding: 0.625em 1.25em; /* 10px 20px */
+    font-size: 1.2rem; /* 19.2px */
+    background-color: white;
+    color: #2196F3;
+    border: none;
+    border-radius: 0.3125em; /* 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#signUpBottom button:hover {
+    background-color: #1769aa;
+    color: white;
 }

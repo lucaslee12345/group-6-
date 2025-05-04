@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  
+  
+
+  /* Ensure consistent background color */
+  body {
+    background-color: #f9f9f9; /* Match the background color of your sections */
+  }
+  
+  /* Remove box-shadow if unnecessary */
+  button {
+    box-shadow: none; /* Remove shadow */
+  }
+  
+  /* Remove border if causing the issue */
+  nav {
+    border: none;
+  } 
+
+  #profile-buttons button:hover {
+    transform: scale(1.05, 1.05);
+  }

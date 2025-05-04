@@ -50,7 +50,7 @@ function Profile({ setPage}) {
           <br></br>
           <br></br>
     
-          <div>
+          <div id='profile-buttons'>
             <button
               onClick={() => setPage('dmlist')}
               style={{
@@ -133,7 +133,11 @@ function Profile({ setPage}) {
           </div>
     
           {/* Navbar */}
-          <div>
+          <div
+          
+          
+          
+          >
             <nav>
               <ul
                 style={{
@@ -142,6 +146,8 @@ function Profile({ setPage}) {
                   listStyle: 'none',
                   padding: 0,
                   margin: '30px 0', // Add spacing at the bottom
+                  backgroundColor: '#f9f9f9',
+                  
                 }}
               >
                 <li style={{ margin: '0 15px' }}>
