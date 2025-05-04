@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import '../css/Login.css';
-import icon from '../img/Person-icon.jpg';
+import icon from '../img/9706583.png'; // Adjust the path as necessary
 
 function Login({ setPage }) {
   const [register, setRegister] = useState(false);
@@ -137,7 +137,7 @@ function Login({ setPage }) {
   return (
     <div className="loginContainer">
       <h1>Doctor Finder</h1>
-
+    
       {!user ? (
         register ? (
           <div>
@@ -173,7 +173,7 @@ function Login({ setPage }) {
                 Sign in
               </button>
             </p>
-            <button onClick={() => setPage('home')}>Back</button>
+            <button onClick={() => setPage('home')}>Back To Homepage</button>
           </div>
         ) : (
           <div>

@@ -1,101 +1,120 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body, html {
+    
+    
+    background-color: #f9f9f9;
+    height: 100%;
 }
-
-body {
-    font-family: Arial, sans-serif;
-    overflow-y: scroll; /* Ensures scrolling is always available */
-}
-
-#profile {
-    border-radius: 50%;
-    height: 50px;
-    width: 50px;
-    display: block;
-    margin: 10px auto;
-    border: 2px solid black;
-}
-
-#logo {
-    height: 30px;
-    width: 180px;
-    display: block;
-    margin: 0 auto;
-    border: 2px solid black;
-}
-
-.top-bar {
-    background-color: lightgray;
-    padding: 10px 0;
-    border-bottom: 2px solid black;
-}
-
-.home h1, .home h2 {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.home img {
-    border-radius: 50%;
-    height: 175px;
-    width: 175px;
-    display: block;
-    margin: 20px auto;
-    border: 2px solid black;
-}
-
-.body-buttons {
+  
+.settings-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 0;
+    justify-content: space-between;
+    min-height: 100vh;
 }
-
-.button {
-    width: 60%;
-    background-color: rgb(161, 84, 255);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    padding: 10px;
+  
+header {
+    margin-top: 1.875em; /* 30px */
     text-align: center;
-    font-size: 1.2rem;
-    margin: 10px 0;
+}
+  
+header h1 {
+    font-size: 1.5em; /* 24px */
+    margin: 0;
+}
+  
+.profile-icon {
+    position: absolute;
+    top: 1.25em; /* 20px */
+    right: 1.25em; /* 20px */
+    width: 2.5em; /* 40px */
+    height: 2.5em; /* 40px */
+    background-color: #ccc;
+    border-radius: 50%;
+}
+  
+.settings-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25em; /* 20px */
+    margin-top: 2.5em; /* 40px */
+}
+  
+.settings-buttons button {
+    padding: 0.75em 1.25em; /* 12px 20px */
+    font-size: 1em; /* 16px */
+    border: none;
+    border-radius: 0.5em; /* 8px */
+    background-color: #ddd;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
 }
-
-.button:hover {
-    background-color: white;
-    border-color: gray;
+  
+.settings-buttons .delete {
+    color: #b30000;
+    font-weight: bold;
 }
-
+  
 .nav-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: lightgray;
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
-    border-top: 2px solid black;
+    width: 100%;
+    padding: 0.625em; /* 10px */
+    background-color: #f1f1f1;
+    border-top: 0.0625em solid #ccc; /* 1px */
 }
-
+  
 .nav-bar button {
     background: none;
-    border: 2px solid black;
-    border-radius: 15px; /* Smooth, rounded corners */
-    font-size: 1.5rem;
+    border: none;
+    font-size: 1.5em; /* 24px */
     cursor: pointer;
-    color: black;
-    padding: 10px 20px;
-    transition: color 0.3s, border-color 0.3s, background-color 0.3s;
 }
-
-.nav-bar button:hover {
+  
+.popup-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+  
+.popup {
+    background: white;
+    padding: 1.875em; /* 30px */
+    border-radius: 0.625em; /* 10px */
+    width: 18.75em; /* 300px */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+  
+.popup input {
+    margin: 0.625em 0; /* 10px */
+    padding: 0.625em; /* 10px */
+    font-size: 0.875em; /* 14px */
+}
+  
+.popup button {
+    margin-top: 0.625em; /* 10px */
+    padding: 0.625em; /* 10px */
+    cursor: pointer;
+}
+  
+.close {
+    position: absolute;
+    top: 0.625em; /* 10px */
+    right: 0.9375em; /* 15px */
+    font-size: 1.25em; /* 20px */
+    cursor: pointer;
+}
+  
+.delete-btn {
+    background-color: red;
     color: white;
-    background-color: black; /* Adds a background color on hover for visibility */
-    border-color: black;
+    font-weight: bold;
 }

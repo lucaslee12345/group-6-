@@ -3,6 +3,7 @@ import profilepicture from '../img/9706583.png';
 
 function Drlist({ setPage }) {
     const DoctorBox = ({ name, specialty }) => (
+      
         <div
           style={{
             display: 'flex',
@@ -27,15 +28,15 @@ function Drlist({ setPage }) {
             e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', flex: 1, content: 'center' }}>
             <img
               src={profilepicture}
               width="60px"
               height="60px"
               style={{
-                marginRight: '20px',
+                
                 borderRadius: '50%', // Circular profile picture
-                border: '2px solid white', // Add border for contrast
+                 // Add border for contrast
               }}
               alt="Profile"
             />
@@ -44,13 +45,14 @@ function Drlist({ setPage }) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center', // Center text vertically
+                flex: 1,
                 textAlign: 'left',
               }}
             >
-              <p style={{ marginLeft:'780px', marginBottom:'0', fontSize: '18px', fontWeight: 'bold', color: '#333' }}>
+              <p style={{  marginLeft:"7em",marginBottom:'0', fontSize: '18px', fontWeight: 'bold', color: '#333', textAlign: 'center' }}> 
                 {name}
               </p>
-              <p style={{ marginLeft:'780px', fontSize: '14px', color: '#555' }}>{specialty}</p>
+              <p style={{  marginLeft:"8.5em",fontSize: '14px', color: '#555' }}>{specialty}</p>
             </div>
           </div>
           <button
@@ -76,6 +78,7 @@ function Drlist({ setPage }) {
 
   return (
     <>
+      <div id='container33'>
        <img
         src={profilepicture}
         width="60px" // Slightly larger for better visibility
@@ -85,7 +88,7 @@ function Drlist({ setPage }) {
           borderRadius: '50%', // Make it circular
           border: '2px solid white', // Add a white border for contrast
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add a subtle shadow
-          margin: '10px', // Add spacing around the image
+       
           transition: 'transform 0.2s, box-shadow 0.2s', // Smooth hover effect
           
         }}
@@ -100,7 +103,7 @@ function Drlist({ setPage }) {
       
         alt="Profile"
       />
-      <h2 style={{ fontSize: 'large', textAlign: 'center', marginLeft:'50px'  }}>
+      <h2 style={{ fontSize: 'large', textAlign: 'center', marginLeft:'3.75em'  }}>
         Dr.Finder
     
       </h2>
@@ -108,7 +111,7 @@ function Drlist({ setPage }) {
         style={{
           fontSize: 'large',
           textAlign: 'center',
-          marginLeft: '50px',
+          marginLeft: '3.75em',
           border: '2px solid #333', // Add a border around the box
           borderRadius: '10px', // Rounded corners
           padding: '10px 20px', // Add padding inside the box
@@ -204,6 +207,7 @@ function Drlist({ setPage }) {
           </ul>
         </nav>
       </div>
+    </div>
     </>
   );
 }
