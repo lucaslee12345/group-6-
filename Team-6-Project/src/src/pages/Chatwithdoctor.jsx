@@ -1,11 +1,7 @@
 import { useState } from "react";
-import { GoogleGenAI } from "@google/genai"; // Import GoogleGenAI
-import "../css/Chatbox.css";
 
-// Initialize GoogleGenAI client
-const ai = new GoogleGenAI({
-  apiKey: "AIzaSyBT2-Mss3y3v2mz780dX_NEC4E5Z2B5uSs", // Replace with your actual API key
-});
+import "../css/Chatwithdoctor.css";
+
 
 function Chatbox({ setPage }) {
   const [messages, setMessages] = useState([]);
@@ -19,30 +15,18 @@ function Chatbox({ setPage }) {
     const userMessage = { text: inputValue, isCurrentUser: true };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInputValue("");
+    
+
+
+    setTimeout(() => {
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            { text: "This is a response from the other user.", isCurrentUser: false },
+        ]);
+    }, 1000);
 
     // Call the GoogleGenAI API
-    setIsLoading(true);
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash", // Replace with the desired model
-        contents: inputValue,
-      });
-
-      const aiMessage = {
-        text: response.text, // AI's response
-        isCurrentUser: false,
-      };
-      setMessages((prevMessages) => [...prevMessages, aiMessage]);
-    } catch (error) {
-      console.error("Error communicating with AI:", error);
-      const errorMessage = {
-        text: "Sorry, I couldn't process your request. Please try again later.",
-        isCurrentUser: false,
-      };
-      setMessages((prevMessages) => [...prevMessages, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
+    
   };
 
   const handleKeyPress = (e) => {
@@ -63,7 +47,7 @@ function Chatbox({ setPage }) {
         <span id="back-button" onClick={leaveChat} style={{ cursor: "pointer" }}>
           ←
         </span>
-        <h2 style={{ animation: "slideIn 1s" }}>AI Chat</h2>
+        <h2 style={{ animation: "slideIn 1s" }}>Chat with Doctor</h2>
       </div>
 
       {/* Chat Container */}
