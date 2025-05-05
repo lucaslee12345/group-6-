@@ -129,7 +129,7 @@ const Settings = ({ setPage }) => {
 
 
       <header>
-        <h1 style={{marginTop:'3em'}}>Dr.Finder</h1>
+        <h1 style={{marginTop:'0em'}}>Dr.Finder</h1>
         <h1 style={{fontSize:'50px'}}>Settings</h1>
       </header>
       <img
