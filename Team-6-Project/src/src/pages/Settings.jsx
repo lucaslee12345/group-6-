@@ -134,10 +134,10 @@ const Settings = ({ setPage }) => {
       </header>
       <img
         src={profilepicture}
-        style={{ width: "200px", height: "2",  borderRadius: "50%", position: "absolute", marginTop: "12.3em" }}
+        style={{ width: "200px", height: "2",  borderRadius: "50%", position: "absolute", marginTop: "8em" }}
         alt="Profile"
       />
-      <div className="settings-buttons" style={{position:'absolute', marginTop:'28em', }}>       
+      <div className="settings-buttons" style={{position:'absolute', marginTop:'23em', }}>       
         <button 
           onClick={() => setPage("changeUser")}
           onMouseOver={(e) => {
