@@ -65,7 +65,7 @@ function Drlist({ setPage }) {
             </div>
           </div>
           <button
-            onClick={() => setPage('chatbox')}
+            onClick={() => setPage('chatwithdoctor')}
             style={{
               fontSize: '16px',
               padding: '10px 20px',

@@ -33,7 +33,7 @@ function Dmlist({ setPage }) {
         e.currentTarget.style.transform = 'scale(1)';
         e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
       }}
-      onClick={() => setPage('chatbox')}
+      onClick={() => setPage('chatwithdoctor')}
       
     >
       <img
@@ -117,8 +117,9 @@ function Dmlist({ setPage }) {
                 <li onClick={() => setPage('profile')}>Home</li>
                   <li onClick={() => setPage('dmlist')}>DmList</li>
                   <li onClick={() => setPage('drlist')}>DrList</li>
-                  <li onClick={() => setPage('chatbox')}>Chat</li>
+                  <li onClick={() => setPage('chatbox')}>AI Chat</li>
                   <li onClick={() => setPage('settings')}>Settings</li>
+                  
                 </ul>
               </div>
           </div>

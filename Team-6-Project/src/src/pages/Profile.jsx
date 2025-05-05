@@ -70,27 +70,27 @@ function Profile({ setPage}) {
 
     
           {/* Rest of the Profile Page */}
-          <div>
+          <div style={{marginTop:'-4em'}}>
             <h2>Dr.Finder</h2>
           </div>  
 
           <div>
-            <h1 style={{fontSize:'50px'}}>Welcome, <br></br> Name</h1>
+            <h1 style={{fontSize:'40px'}}>Welcome, <br></br> Name</h1>
           </div>
 
           <div> 
 
             <img src={profilepicture} width="200px" height="200px" style={{borderRadius:'50%'}} alt="Profile" />
           </div>
-          <br></br>
-          <br></br>
+         
+          
     
           <div id='profile-buttons'>
             <button
               onClick={() => setPage('dmlist')}
               style={{
                 fontSize: '30px',
-                padding: '30px 100px',
+                padding: '20px 80px',
                 borderRadius: '12px',
                 cursor: 'pointer',
                 backgroundColor: '#2196F3', // Blue background
@@ -110,7 +110,7 @@ function Profile({ setPage}) {
               onClick={() => setPage('drlist')}
               style={{
                 fontSize: '30px',
-                padding: '30px 100px',
+                padding: '20px 80px',
                 borderRadius: '12px',
                 cursor: 'pointer',
                 backgroundColor: '#2196F3', // Blue background
@@ -131,7 +131,7 @@ function Profile({ setPage}) {
               onClick={() => setPage('chatbox')}
               style={{
                 fontSize: '30px',
-                padding: '30px 100px',
+                padding: '20px 80px',
                 borderRadius: '12px',
                 cursor: 'pointer',
                 backgroundColor: '#2196F3', // Blue background
@@ -143,7 +143,7 @@ function Profile({ setPage}) {
               onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
               onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
             >
-              Chat
+              AI Chat
             </button>
             <br />
             <br />
@@ -151,7 +151,7 @@ function Profile({ setPage}) {
               onClick={() => setPage('settings')}
               style={{
                 fontSize: '30px',
-                padding: '30px 100px',
+                padding: '20px 80px',
                 borderRadius: '12px',
                 cursor: 'pointer',
                 backgroundColor: '#2196F3', // Blue background

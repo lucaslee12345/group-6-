@@ -63,7 +63,7 @@ function Chatbox({ setPage }) {
         <span id="back-button" onClick={leaveChat} style={{ cursor: "pointer" }}>
           ←
         </span>
-        <h2 style={{ animation: "slideIn 1s" }}>AI Chat Room</h2>
+        <h2 style={{ animation: "slideIn 1s" }}>AI Chat</h2>
       </div>
 
       {/* Chat Container */}
