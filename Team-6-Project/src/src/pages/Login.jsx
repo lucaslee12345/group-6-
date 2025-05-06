@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import '../css/Login.css';
-import icon from '../img/Person-icon.jpg';
+import icon from '../img/9706583.png';
 
 function Login({ setPage }) {
   const [email, setEmail] = useState('');

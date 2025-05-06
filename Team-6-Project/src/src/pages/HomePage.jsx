@@ -1,7 +1,7 @@
 import '../css/HomePage.css'
 
-import homeBG from '../img/doctorWorking.jpg'
-import docHelp from '../img/doctorhelp.jpeg'
+import homeBG from '../img/doctorpicture.png'
+import docHelp from '../img/doctorhelp.jpg'
 
 function HomePage({ setPage }) {
     return (
@@ -10,11 +10,10 @@ function HomePage({ setPage }) {
             <div id="imgContainer">
                 <img id="topImg" alt="doctor working" src={homeBG}/>
                 <div id="centered">
-                    <p>Welcome!</p>
+                    <h1>Dr. Finder</h1>
+                   
                 </div>
-                <div id="top-right">
-                    <button onClick={() => setPage("login")}>Sign In</button>
-                </div>
+                
             </div>
             
             {/* description */}
@@ -37,16 +36,16 @@ function HomePage({ setPage }) {
                        lot of money, just so that you could have a doctor 
                        answer your question about health. Fortunately, these 
                        constraints are reduced, because you can message them now!</p>
-                    <button>Find a Doctor</button>
+                    <button onClick={() => setPage("login")}>Find a Doctor</button>
                 </div>
                 <div>
-                    <img alt="doctor working" src={docHelp}/>
+                    <img alt="doctor picture" src={docHelp} style={{width:'40%'}}/>
                 </div>
             </div>
 
             {/* sign up now */}
             <div id="signUpBottom">
-                <p>Want to Join?</p>
+                <p style={{}}>Want to Join?</p>
                 <button onClick={() => setPage("login")}>Sign Up Today</button>
             </div>
         </>
