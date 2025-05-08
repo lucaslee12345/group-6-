@@ -12,6 +12,7 @@ function Drlist({ setPage }) {
   };
     const DoctorBox = ({ name, specialty }) => (
 
+      // css
       
         <div
           style={{
