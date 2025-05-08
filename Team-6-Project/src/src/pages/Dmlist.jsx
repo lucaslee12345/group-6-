@@ -9,6 +9,7 @@ function Dmlist({ setPage }) {
     setIsPanelVisible(!isPanelVisible);
   };
   const DoctorBox = ({ name, message }) => (
+    // css
     <div
       style={{
         display: 'flex',
