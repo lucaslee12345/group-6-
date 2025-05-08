@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import "../css/Settings.css";
 import profilepicture from "../img/9706583.png"; // Adjust the path as necessary
 
-
+// logging out
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const validatePasswordMatch = (password, confirmPassword) => {
   return password === confirmPassword;
@@ -27,6 +29,17 @@ const Settings = ({ setPage }) => {
     confirmNewEmail: "",
     deletePass: "",
   });
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      alert("Successfully logged out!");
+      setPage("home");  // or whatever page you want to show after logout
+    } catch (error) {
+      console.error("Logout failed", error);
+      alert("Failed to log out. Please try again.");
+    }
+  };  
 
   const openPopup = (id) => setPopup(id);
   const closePopup = () => {
@@ -138,20 +151,6 @@ const Settings = ({ setPage }) => {
         alt="Profile"
       />
       <div className="settings-buttons" style={{position:'absolute', marginTop:'23em', }}>       
-        <button 
-          onClick={() => setPage("changeUser")}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.backgroundColor = "#c9c7c7";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.backgroundColor = "#ddd";
-          }}
-          
-        >
-          Change User
-        </button>
         <button
           onClick={() => openPopup("password")}
           onMouseOver={(e) => {
@@ -179,7 +178,7 @@ const Settings = ({ setPage }) => {
           Change Email
         </button>
         <button
-          onClick={() => setPage("home")}
+          onClick={handleLogout}
           onMouseOver={(e) => {
             e.currentTarget.style.transform = 'scale(1.05)';
             e.currentTarget.style.backgroundColor = "#c9c7c7";
@@ -191,6 +190,7 @@ const Settings = ({ setPage }) => {
         >
           Log Out
         </button>
+
         <button
           className="delete"
           onClick={() => openPopup("delete")}
