@@ -102,8 +102,8 @@ function Profile({ setPage, user }) {
 }
 
 const buttonStyle = {
-  fontSize: '30px',
-  padding: '20px 80px',
+  fontSize: '20px',
+  padding: '15px 80px',
   borderRadius: '12px',
   cursor: 'pointer',
   backgroundColor: '#2196F3',

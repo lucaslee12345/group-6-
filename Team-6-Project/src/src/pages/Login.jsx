@@ -89,6 +89,7 @@ function Login({ setPage }) {
   };
 
   return (
+    <div className='loginpage'>
     <div className="loginContainer">
       <h1>Doctor Finder</h1>
       {error && <p className="error">{error}</p>}
@@ -168,6 +169,7 @@ function Login({ setPage }) {
           </button>
         </div>
       )}
+    </div>
     </div>
   );
 }
