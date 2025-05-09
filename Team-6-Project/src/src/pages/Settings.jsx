@@ -105,20 +105,8 @@ const Settings = ({ setPage }) => {
     setIsPanelVisible(!isPanelVisible);
   };
   return (
-    
-
-
-
-
-
-
-
-
     <div className="settings-page">
-      
 
-
-      
       <img
           src={profilepicture}
           className="profile-icon"
@@ -207,7 +195,9 @@ const Settings = ({ setPage }) => {
         </button>
       </div>
 
-     
+      <div>
+        <h1>(WIP)</h1>
+      </div>
 
       {/* Popup Modals */}
       {popup === "password" && (
