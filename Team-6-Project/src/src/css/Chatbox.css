@@ -44,9 +44,9 @@ body {
     flex: 1; /* Allows the chat container to grow and fit the available space */
     background: white;
     padding: 15px;
-    width: 1500px;
+    width: 97%;
     margin:auto;
-    height: 550px;
+    height: 700px;
     margin-bottom: 10px;
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
