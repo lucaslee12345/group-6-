@@ -1,9 +1,7 @@
 import { useState } from "react";
-
 import "../css/Chatwithdoctor.css";
 
-
-function Chatbox({ setPage }) {
+function Chatbox({ setPage, doctorName }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -15,18 +13,33 @@ function Chatbox({ setPage }) {
     const userMessage = { text: inputValue, isCurrentUser: true };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInputValue("");
-    
+    setIsLoading(true);
 
+    try {
+      // Simulate sending the message to the doctor and receiving a response
+      const response = await fetch(
+        `https://npiregistry.cms.hhs.gov/api/?version=2.1&state=CA&limit=1`
+      );
+      const data = await response.json();
 
-    setTimeout(() => {
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            { text: "This is a response from the other user.", isCurrentUser: false },
-        ]);
-    }, 1000);
+      // Simulate a response from the doctor
+      const doctorResponse = {
+        text: `Hello, this is ${doctorName}. How can I assist you?`,
+        isCurrentUser: false,
+      };
 
-    // Call the GoogleGenAI API
-    
+      setTimeout(() => {
+        setMessages((prevMessages) => [...prevMessages, doctorResponse]);
+        setIsLoading(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Error communicating with the doctor:", error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: "Failed to send message. Please try again.", isCurrentUser: false },
+      ]);
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -47,7 +60,7 @@ function Chatbox({ setPage }) {
         <span id="back-button" onClick={leaveChat} style={{ cursor: "pointer" }}>
           ←
         </span>
-        <h2 style={{ animation: "slideIn 1s" }}>Chat with Doctor</h2>
+        <h2 style={{ animation: "slideIn 1s" }}>Chat with {doctorName}</h2>
       </div>
 
       {/* Chat Container */}
