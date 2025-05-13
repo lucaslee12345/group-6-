@@ -6,11 +6,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import '../css/Login.css';
 import icon from '../img/9706583.png';
 
 function Login({ setPage }) {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,13 +23,14 @@ function Login({ setPage }) {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        setPage('profile'); // Go to next page after login
+        setPage('profile');
       }
     });
     return () => unsubscribe();
   }, [setPage]);
 
   const clearFields = () => {
+    setUsername('');
     setEmail('');
     setPassword('');
     setConfirmPassword('');
@@ -41,14 +43,19 @@ function Login({ setPage }) {
       setError('Passwords do not match.');
       return;
     }
+
     try {
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      await setDoc(doc(db, 'users', user.uid), {
+
+      
+      await setDoc(doc(db, 'Accounts', user.uid), {
+        username: username,
         email: user.email,
         createdAt: new Date(),
-        name: user.displayName,
       });
+
       setPage('profile');
     } catch (err) {
       setError(err.message);
@@ -58,12 +65,13 @@ function Login({ setPage }) {
   const handleEmailSignIn = async () => {
     setError('');
     try {
+      const usersRef = collection(db, 'Accounts');
+
+
       await signInWithEmailAndPassword(auth, email, password);
       setPage('profile');
     } catch (err) {
-      if (err.code === 'auth/user-not-found') {
-        setError('No account found with this email.');
-      } else if (err.code === 'auth/wrong-password') {
+      if (err.code === 'auth/wrong-password') {
         setError('Incorrect password.');
       } else {
         setError(err.message);
@@ -76,7 +84,7 @@ function Login({ setPage }) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      const userDocRef = doc(db, 'users', user.uid);
+      const userDocRef = doc(db, 'Accounts', user.uid);
       await setDoc(userDocRef, {
         email: user.email,
         googleAccount: true,
@@ -89,7 +97,6 @@ function Login({ setPage }) {
   };
 
   return (
-    <div className='loginpage'>
     <div className="loginContainer">
       <h1>Doctor Finder</h1>
       {error && <p className="error">{error}</p>}
@@ -97,6 +104,14 @@ function Login({ setPage }) {
         register ? (
           <div>
             <h2>Register</h2>
+            <div className="inputRow">
+              <p>Username:</p>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
             <div className="inputRow">
               <p>Email:</p>
               <input
@@ -135,11 +150,12 @@ function Login({ setPage }) {
             <img id="icon" src={icon} alt="user icon" />
             <h2>Log In</h2>
             <div className="inputRow">
-              <p>Email:</p>
+              <p>Username or Email:</p>
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter username or email"
               />
             </div>
             <div className="inputRow">
@@ -169,7 +185,6 @@ function Login({ setPage }) {
           </button>
         </div>
       )}
-    </div>
     </div>
   );
 }
