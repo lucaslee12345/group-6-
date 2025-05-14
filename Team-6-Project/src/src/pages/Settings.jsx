@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/Settings.css";
 import profilepicture from "../img/9706583.png"; // Adjust the path as necessary
-
+import '../css/Drlist.css';
 // logging out
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";

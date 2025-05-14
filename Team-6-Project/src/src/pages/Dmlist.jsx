@@ -1,5 +1,6 @@
 import '../css/Dmlist.css'
 import profilepicture from '../img/9706583.png'
+import '../css/Drlist.css';
 import { useState } from 'react';
 
 function Dmlist({ setPage }) {

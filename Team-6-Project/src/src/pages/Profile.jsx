@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../css/Profile.css';
+import '../css/Drlist.css';
 import profilepicture from '../img/9706583.png'; // Adjust the path as necessary
 
 function Profile({ setPage, user }) {
