@@ -67,16 +67,17 @@ function Chatbox({ setPage }) {
       </div>
 
       {/* Chat Container */}
-      <div id="chat-container">
+      <div id="chat-container" >
         {messages.map((message, index) => (
           <div
             key={index}
             className={`message ${message.isCurrentUser ? "right" : "left"}`}
             style={{
               animation: message.isCurrentUser ? "slideInRight 0.5s" : "slideInLeft 0.5s",
+             
             }}
           >
-            <span>{message.text}</span>
+            <span style={{textAlign:"left"}}>{message.text}</span>
           </div>
         ))}
         {isLoading && (
@@ -98,6 +99,7 @@ function Chatbox({ setPage }) {
           style={{
             transition: "box-shadow 0.3s",
             boxShadow: inputValue ? "0 0 10px rgba(33, 150, 243, 0.5)" : "none",
+
           }}
         />
         <button
