@@ -121,7 +121,7 @@ function Profile({ setPage}) {
              onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
              onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
            >
-             Doctor List
+             Find Doctors
            </button>
            <br>
            </br>
