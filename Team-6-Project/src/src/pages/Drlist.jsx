@@ -301,8 +301,8 @@ function Drlist({ setPage }) {
           </button>
           <ul>
             <li onClick={() => setPage('profile')}>Home</li>
-            <li onClick={() => setPage('dmlist')}>DmList</li>
-            <li onClick={() => setPage('drlist')}>DrList</li>
+            <li onClick={() => setPage('dmlist')}>Messages</li>
+            <li onClick={() => setPage('drlist')}>Find Doctor</li>
             <li onClick={() => setPage('chatbox')}>AI Chat</li>
             <li onClick={() => setPage('settings')}>Settings</li>
           </ul>

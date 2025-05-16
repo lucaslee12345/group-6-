@@ -52,9 +52,9 @@ function Profile({ setPage}) {
                </button>
                <ul>
                <li onClick={() => setPage('profile')}>Home</li>
-                 <li onClick={() => setPage('dmlist')}>DmList</li>
-                 <li onClick={() => setPage('drlist')}>DrList</li>
-                 <li onClick={() => setPage('chatbox')}>Chat</li>
+                 <li onClick={() => setPage('dmlist')}>Messages</li>
+                 <li onClick={() => setPage('drlist')}>Find Doctor</li>
+                 <li onClick={() => setPage('chatbox')}>AI Chat</li>
                  <li onClick={() => setPage('settings')}>Settings</li>
                </ul>
              </div>
@@ -101,7 +101,7 @@ function Profile({ setPage}) {
              onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
              onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
            >
-             DM List
+             Messages
            </button>
            <br />
            <br />
