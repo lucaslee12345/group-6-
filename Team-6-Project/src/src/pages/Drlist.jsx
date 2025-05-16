@@ -127,10 +127,13 @@ function Drlist({ setPage }) {
                 src={`https://www.google.com/maps?q=${encodeURIComponent(mapOverlay.address)}&output=embed`}
                 allowFullScreen
               ></iframe>
+
             </div>
             <div style={{ marginTop: "1rem", color: "#22577a", fontWeight: 500, textAlign: "center" }}>
               {mapOverlay.address}
             </div>
+
+            
           </div>
         </div>
       )}
@@ -234,6 +237,25 @@ function Drlist({ setPage }) {
                   }}
                   title={address ? "Click to view on map" : ""}
                 >
+
+                <div 
+                
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.02)';
+                      e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
+                      
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+                    }}
+                    onClick={() => setPage('chatwithdoctor')}>
+
+                <h3> Click to Chat</h3>
+
+                  
+                    
+                </div>
                   <div style={{
                     fontWeight: 700,
                     fontSize: '1.22rem',
