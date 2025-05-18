@@ -186,44 +186,55 @@ const Settings = ({ setPage }) => {
   const submitDeleteAccount = async () => {
     const { deletePass } = formData;
     setError("");
-
+  
     if (!deletePass) {
       setError("Please enter your password to confirm.");
       return;
     }
-
+  
     try {
       const user = auth.currentUser;
       if (!user) {
         setError("No user is currently signed in.");
         return;
       }
-
+  
+      const confirm = confirmAction("This action is irreversible. Are you sure?");
+      if (!confirm) return;
+  
+      // If user signed in with Google, no password is needed
       if (user.providerData[0].providerId === 'google.com') {
-        if (confirmAction("This action is irreversible. Are you sure?")) {
-          await deleteUserAndData(user);
-          alert("Account deleted successfully.");
-          setPage("home");
-        }
-        return;
-      }
-
-      const credential = EmailAuthProvider.credential(user.email, deletePass);
-      await reauthenticateWithCredential(user, credential);
-
-      if (confirmAction("This action is irreversible. Are you sure?")) {
-        await deleteUserAndData(user);
+        await deleteDoc(doc(db, 'Accounts', user.uid));
+        await user.delete();
         alert("Account deleted successfully.");
         setPage("home");
+        return;
       }
+  
+      // Reauthenticate email/password user
+      const credential = EmailAuthProvider.credential(user.email, deletePass);
+      await reauthenticateWithCredential(user, credential);
+  
+      // Delete Firestore document
+      await deleteDoc(doc(db, 'Accounts', user.uid));
+  
+      // Delete user from Firebase Auth
+      await user.delete();
+  
+      alert("Account deleted successfully.");
+      setPage("home");
+  
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
         setError("Password is incorrect.");
+      } else if (error.code === 'auth/requires-recent-login') {
+        setError("Please log in again and try deleting your account.");
       } else {
+        console.error("Error deleting account:", error);
         setError(error.message);
       }
     }
-  };
+  };  
 
   const togglePanel = () => {
     setIsPanelVisible(!isPanelVisible);
