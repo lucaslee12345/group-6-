@@ -1,64 +1,67 @@
 import React, { useState } from 'react';
 
 const SPECIALTIES = [
-  "Family Medicine",
-  "Internal Medicine",
-  "Pediatrics",
-  "Dermatology",
-  "Cardiology",
-  "Psychiatry",
-  "Obstetrics & Gynecology",
-  "Orthopedic Surgery",
-  "Ophthalmology",
-  "Radiology",
-  "Emergency Medicine",
-  "General Surgery",
-  "Anesthesiology",
-  "Neurology",
-  "Urology"
-];
-
-// Add more postal codes near 92130
-const POSTAL_CODES = [
-  "92130", "92121", "92127", "92129", "92131", "92128", "92014", "92075", "92067"
+  "Family Medicine", "Internal Medicine", "Pediatrics", "Dermatology", "Cardiology",
+  "Psychiatry", "Obstetrics & Gynecology", "Orthopedic Surgery", "Ophthalmology",
+  "Radiology", "Emergency Medicine", "General Surgery", "Anesthesiology", "Neurology", "Urology"
 ];
 
 function Drlist({ setPage }) {
-  // NPI Registry state
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const [doctors, setDoctors] = useState([]);
   const [doctorError, setDoctorError] = useState(null);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [specialty, setSpecialty] = useState('');
+  const [zipInput, setZipInput] = useState('');
   const [mapOverlay, setMapOverlay] = useState({ visible: false, address: "" });
+  const [showNoNameDoctors, setShowNoNameDoctors] = useState(false);
 
-  const togglePanel = () => {
-    setIsPanelVisible(!isPanelVisible);
-  };
+  const togglePanel = () => setIsPanelVisible(!isPanelVisible);
 
   const lookupDoctors = async () => {
     setLoadingDoctors(true);
     setDoctorError(null);
     setDoctors([]);
-    // Build multiple postal_code params for the API
-    const postalParams = POSTAL_CODES.map(code => `&postal_code=${code}`).join('');
+
+    const zipCodes = zipInput
+      .split(',')
+      .map(z => z.trim())
+      .filter(z => z.length > 0);
+
+    if (zipCodes.length === 0) {
+      setDoctorError("Please enter at least one ZIP code.");
+      setLoadingDoctors(false);
+      return;
+    }
+
+    const postalParams = zipCodes.map(code => `&postal_code=${code}`).join('');
     const specialtyParam = specialty ? `&taxonomy_description=${encodeURIComponent(specialty)}` : '';
-    const npiUrl = `https://corsproxy.io/?https://npiregistry.cms.hhs.gov/api/?version=2.1&city=San%20Diego&state=CA${postalParams}&limit=30${specialtyParam}`;
+    const npiUrl = `https://corsproxy.io/?https://npiregistry.cms.hhs.gov/api/?version=2.1${postalParams}&limit=30${specialtyParam}`;
+
     try {
       const response = await fetch(npiUrl);
       if (!response.ok) throw new Error('Failed to fetch doctors');
       const data = await response.json();
-      setDoctors(data.results || []);
+
+      let filtered = data.results || [];
+      if (!showNoNameDoctors) {
+        filtered = filtered.filter(doc =>
+          doc.basic?.first_name || doc.basic?.last_name || doc.basic?.name || doc.basic?.authorized_official_name
+        );
+      }
+
+      setDoctors(filtered);
     } catch (err) {
       setDoctorError('Failed to fetch doctors');
     }
+
     setLoadingDoctors(false);
   };
 
-  // Overlay map for address
   const showMapOverlay = (address) => {
     setMapOverlay({ visible: true, address });
   };
+
   const closeMapOverlay = () => {
     setMapOverlay({ visible: false, address: "" });
   };
@@ -70,70 +73,35 @@ function Drlist({ setPage }) {
       background: 'linear-gradient(120deg,rgb(139, 162, 235) 0%,rgb(103, 146, 238) 100%)',
       minHeight: '100vh'
     }}>
-      {/* Map Overlay */}
+
       {mapOverlay.visible && (
         <div style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(0,0,0,0.45)",
-          zIndex: 3000,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(0,0,0,0.45)", zIndex: 3000,
+          display: "flex", alignItems: "center", justifyContent: "center"
         }}>
           <div style={{
-            background: "#fff",
-            borderRadius: "18px",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-            padding: "1.5rem",
-            maxWidth: "90vw",
-            maxHeight: "90vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            position: "relative"
+            background: "#fff", borderRadius: "18px", boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+            padding: "1.5rem", maxWidth: "90vw", maxHeight: "90vh",
+            display: "flex", flexDirection: "column", alignItems: "center", position: "relative"
           }}>
-            <button
-              onClick={closeMapOverlay}
-              style={{
-                position: "absolute",
-                top: "12px",
-                right: "18px",
-                background: "none",
-                border: "none",
-                fontSize: "1.7rem",
-                color: "#184d47",
-                cursor: "pointer"
-              }}
-              aria-label="Close map"
-            >✖</button>
+            <button onClick={closeMapOverlay} style={{
+              position: "absolute", top: "12px", right: "18px",
+              background: "none", border: "none", fontSize: "1.7rem", color: "#184d47", cursor: "pointer"
+            }} aria-label="Close map">✖</button>
             <h3 style={{ marginBottom: "1rem", color: "#184d47" }}>Location Map</h3>
             <div style={{
-              width: "70vw",
-              maxWidth: "500px",
-              height: "55vw",
-              maxHeight: "400px",
-              borderRadius: "12px",
-              overflow: "hidden",
-              border: "2px solid #43cea2",
-              background: "#eee"
+              width: "70vw", maxWidth: "500px", height: "55vw", maxHeight: "400px",
+              borderRadius: "12px", overflow: "hidden", border: "2px solid #43cea2", background: "#eee"
             }}>
               <iframe
-                title="Google Map"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
+                title="Google Map" width="100%" height="100%" frameBorder="0" style={{ border: 0 }}
                 src={`https://www.google.com/maps?q=${encodeURIComponent(mapOverlay.address)}&output=embed`}
-                allowFullScreen
-              ></iframe>
-
+                allowFullScreen></iframe>
             </div>
             <div style={{ marginTop: "1rem", color: "#22577a", fontWeight: 500, textAlign: "center" }}>
               {mapOverlay.address}
             </div>
-
-            
           </div>
         </div>
       )}
@@ -155,11 +123,13 @@ function Drlist({ setPage }) {
         }}>
           Find Doctors Near You
         </h2>
+
         <div style={{
           marginBottom: '2rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '1.2rem'
+          gap: '1.2rem',
+          flexWrap: 'wrap'
         }}>
           <select
             value={specialty}
@@ -167,20 +137,36 @@ function Drlist({ setPage }) {
             style={{
               padding: '0.7rem 1.1rem',
               borderRadius: '10px',
-              border: '1.5px solidrgb(84, 107, 238)',
+              border: '1.5px solid rgb(84, 107, 238)',
               fontSize: '1.08rem',
               outline: 'none',
               flex: 1,
-              maxWidth: '320px',
               background: '#f7fafc',
-              transition: 'border 0.2s'
-            }}
-          >
+              maxWidth: '320px'
+            }}>
             <option value="">Choose a Specialty (optional)</option>
             {SPECIALTIES.map((spec, idx) => (
               <option key={idx} value={spec}>{spec}</option>
             ))}
           </select>
+
+          <input
+            type="text"
+            placeholder="Enter ZIP codes (comma separated)"
+            value={zipInput}
+            onChange={(e) => setZipInput(e.target.value)}
+            style={{
+              padding: '0.7rem 1.1rem',
+              borderRadius: '10px',
+              border: '1.5px solid rgb(84, 107, 238)',
+              fontSize: '1.08rem',
+              outline: 'none',
+              flex: 1,
+              background: '#f7fafc',
+              maxWidth: '320px'
+            }}
+          />
+
           <button
             onClick={lookupDoctors}
             style={{
@@ -194,10 +180,18 @@ function Drlist({ setPage }) {
               cursor: 'pointer',
               boxShadow: '0 2px 10px rgba(67, 206, 162, 0.13)',
               transition: 'background 0.2s'
-            }}
-          >
+            }}>
             Search Doctors
           </button>
+
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.98rem' }}>
+            <input
+              type="checkbox"
+              checked={showNoNameDoctors}
+              onChange={(e) => setShowNoNameDoctors(e.target.checked)}
+            />
+            Show doctors with no name
+          </label>
         </div>
 
         {doctorError && <p style={{ color: '#d90429', marginBottom: '1.2rem', fontWeight: 500 }}>{doctorError}</p>}
@@ -211,10 +205,10 @@ function Drlist({ setPage }) {
             gap: '22px'
           }}>
             {doctors.map((doc, idx) => {
-              // Compose Google Maps query from address
               const address = doc.addresses && doc.addresses[0]
                 ? `${doc.addresses[0].address_1}, ${doc.addresses[0].city}, ${doc.addresses[0].state} ${doc.addresses[0].postal_code}`
                 : null;
+
               return (
                 <div
                   key={doc.number || idx}
@@ -228,7 +222,7 @@ function Drlist({ setPage }) {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     minHeight: '150px',
-                    border: '1.5px solidrgb(70, 106, 226)',
+                    border: '1.5px solid rgb(70, 106, 226)',
                     cursor: address ? 'pointer' : 'default',
                     transition: 'box-shadow 0.18s, transform 0.13s'
                   }}
@@ -237,25 +231,20 @@ function Drlist({ setPage }) {
                   }}
                   title={address ? "Click to view on map" : ""}
                 >
-
-                <div 
-                
+                  <div
                     onMouseOver={(e) => {
                       e.currentTarget.style.transform = 'scale(1.02)';
                       e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
-                      
                     }}
                     onMouseOut={(e) => {
                       e.currentTarget.style.transform = 'scale(1)';
                       e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
                     }}
-                    onClick={() => setPage('chatwithdoctor')}>
+                    onClick={() => setPage('chatwithdoctor')}
+                  >
+                    <h3>Click to Chat</h3>
+                  </div>
 
-                <h3> Click to Chat</h3>
-
-                  
-                    
-                </div>
                   <div style={{
                     fontWeight: 700,
                     fontSize: '1.22rem',
@@ -265,8 +254,9 @@ function Drlist({ setPage }) {
                   }}>
                     {(doc.basic?.first_name || doc.basic?.last_name)
                       ? `${doc.basic?.first_name || ''} ${doc.basic?.last_name || ''}`.trim()
-                      : doc.basic?.name || doc.basic?.authorized_official_name || "No Name Provided"}
+                      : doc.basic?.name || doc.basic?.authorized_official_name || 'Unnamed Doctor'}
                   </div>
+
                   <div style={{
                     marginBottom: '0.5em',
                     color: '#22577a',
@@ -277,15 +267,14 @@ function Drlist({ setPage }) {
                       ? `Specialty: ${doc.taxonomies[0].desc}`
                       : 'Specialty: N/A'}
                   </div>
+
                   <div style={{
                     color: '#555',
                     fontSize: '1.01rem',
                     fontWeight: 400,
                     textDecoration: address ? 'underline dotted' : 'none'
                   }}>
-                    {address
-                      ? `Address: ${address}`
-                      : 'Address: N/A'}
+                    {address ? `Address: ${address}` : 'Address: N/A'}
                   </div>
                 </div>
               );
@@ -293,12 +282,11 @@ function Drlist({ setPage }) {
           </div>
         )}
       </div>
+
       <div id='newnavbar'>
         <button onClick={togglePanel}>☰</button>
         <div className={`sliding-panel ${isPanelVisible ? 'visible' : ''}`}>
-          <button className="close-panel" onClick={togglePanel}>
-            ✖
-          </button>
+          <button className="close-panel" onClick={togglePanel}>✖</button>
           <ul>
             <li onClick={() => setPage('profile')}>Home</li>
             <li onClick={() => setPage('dmlist')}>Messages</li>
