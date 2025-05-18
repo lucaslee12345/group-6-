@@ -14,7 +14,6 @@ import icon from '../img/9706583.png';
 
 // TODO: SET DISPLAYNAME IN APP.JSX
 
-
 function Login({ setPage }) {
  const [username, setUsername] = useState('');
  const [email, setEmail] = useState('');
@@ -80,9 +79,6 @@ function Login({ setPage }) {
    setError('');
    try {
      const usersRef = collection(db, 'Accounts');
-
-
-
 
      await signInWithEmailAndPassword(auth, email, password);
      setPage('profile');

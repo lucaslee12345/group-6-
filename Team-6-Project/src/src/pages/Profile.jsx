@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import '../css/Profile.css';
 import profilepicture from '../img/9706583.png'; // Adjust the path as necessary
 import { getAuth } from 'firebase/auth';
@@ -10,16 +10,21 @@ function Profile({ setPage}) {
 
 
  const [isPanelVisible, setIsPanelVisible] = useState(false);
- const [displayName, setDisplayName] = useState('');
+ const [username, setUsername] = useState('');
 
 
  useEffect(() => {
    const fetchUserData = async () => {
      const user = auth.currentUser;
      if (user) {
-       if (user.displayName) {
-         // If user has a displayName (Google sign-in)
-         setDisplayName(user.displayName);
+       try {
+         const userDoc = await getDoc(doc(db, 'Accounts', user.uid));
+         if (userDoc.exists()) {
+           const userData = userDoc.data();
+           setUsername(userData.username || user.displayName || '');
+         }
+       } catch (error) {
+         console.error("Error fetching username:", error);
        }
      }
    };
@@ -27,6 +32,22 @@ function Profile({ setPage}) {
 
    fetchUserData();
  }, []);
+
+
+ const updateUsername = async (newUsername) => {
+   const user = auth.currentUser;
+   if (user) {
+     try {
+       await updateDoc(doc(db, 'Accounts', user.uid), {
+         username: newUsername
+       });
+       setUsername(newUsername);
+     } catch (error) {
+       console.error("Error updating username:", error);
+       throw error;
+     }
+   }
+ };
 
 
  const togglePanel = () => {
@@ -74,7 +95,7 @@ function Profile({ setPage}) {
 
 
          <div>
-           <h1 style={{fontSize:'40px'}}>Welcome, <br></br> {getAuth().currentUser?.displayName}</h1>
+           <h1 style={{fontSize:'40px'}}>Welcome, <br></br> {username}</h1>
          </div>
 
 

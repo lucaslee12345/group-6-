@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/Settings.css";
 import profilepicture from "../img/9706583.png"; // Adjust the path as necessary
 import { signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
@@ -28,6 +28,28 @@ const Settings = ({ setPage }) => {
    deletePass: "",
  });
  const [error, setError] = useState("");
+ const [currentUsername, setCurrentUsername] = useState("");
+
+
+ useEffect(() => {
+   const fetchCurrentUsername = async () => {
+     const user = auth.currentUser;
+     if (user) {
+       try {
+         const userDoc = await getDoc(doc(db, 'Accounts', user.uid));
+         if (userDoc.exists()) {
+           const userData = userDoc.data();
+           setCurrentUsername(userData.username || user.displayName || '');
+         }
+       } catch (error) {
+         console.error("Error fetching username:", error);
+       }
+     }
+   };
+
+
+   fetchCurrentUsername();
+ }, []);
 
 
  const handleLogout = async () => {
@@ -112,28 +134,14 @@ const Settings = ({ setPage }) => {
 
 
  const submitChangeUsername = async () => {
-   const { currentUsername, newUsername, confirmNewUsername } = formData;
+   const { currentUsername: inputCurrentUsername, newUsername, confirmNewUsername } = formData;
    setError("");
     if (!validatePasswordMatch(newUsername, confirmNewUsername)) {
      setError("New usernames do not match!");
      return;
    }
     try {
-     const user = auth.currentUser;
-     if (!user) {
-       setError("No user is currently signed in.");
-       return;
-     }
-      // Get current user data from the correct collection
-     const userDocRef = doc(db, 'Accounts', user.uid);
-     const userDoc = await getDoc(userDocRef);
-      if (!userDoc.exists()) {
-       setError("User data not found.");
-       return;
-     }
-      const userData = userDoc.data();
-      // Check if current username matches
-     if (userData.username !== currentUsername) {
+     if (inputCurrentUsername !== currentUsername) {
        setError("Current username is incorrect.");
        return;
      }
@@ -146,11 +154,15 @@ const Settings = ({ setPage }) => {
        return;
      }
       // Update username in Firestore
-     await updateDoc(userDocRef, {
-       username: newUsername,
-     });
-      alert("Username changed successfully!");
-     closePopup();
+     const user = auth.currentUser;
+     if (user) {
+       await updateDoc(doc(db, 'Accounts', user.uid), {
+         username: newUsername
+       });
+       setCurrentUsername(newUsername);
+       alert("Username changed successfully!");
+       closePopup();
+     }
    } catch (error) {
      console.error("Error changing username:", error);
      setError(error.message);

@@ -11,6 +11,7 @@ import Settings from "./pages/Settings.jsx";
 import Chatwithdoctor from "./pages/Chatwithdoctor.jsx"
 function App() {
 	const [page, setPage] = useState("home");
+	const [displayName, setDisplayName] = useState("");
 
 	// firebase variables bet set here
 
