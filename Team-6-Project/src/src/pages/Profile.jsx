@@ -99,93 +99,29 @@ function Profile({ setPage}) {
          </div>
 
 
-         <div>
+          <div>
 
 
            <img src={profilepicture} width="200px" height="200px" style={{borderRadius:'50%'}} alt="Profile" />
-         </div>
-  
-         <div id='profile-buttons'>
-           <button
-             onClick={() => setPage('dmlist')}
-             style={{
-               fontSize: '30px',
-               padding: '20px 80px',
-               borderRadius: '12px',
-               cursor: 'pointer',
-               backgroundColor: '#2196F3', // Blue background
-               color: 'white',
-               border: 'none',
-               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-               transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-             }}
-             onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-             onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-           >
-             Messages
-           </button>
-           <br />
-           <br />
-           <button
-             onClick={() => setPage('drlist')}
-             style={{
-               fontSize: '30px',
-               padding: '20px 80px',
-               borderRadius: '12px',
-               cursor: 'pointer',
-               backgroundColor: '#2196F3', // Blue background
-               color: 'white',
-               border: 'none',
-               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-               transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-             }}
-             onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-             onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-           >
-             Find Doctors
-           </button>
-           <br>
-           </br>
-           <br></br>
-           <button
-             onClick={() => setPage('chatbox')}
-             style={{
-               fontSize: '30px',
-               padding: '20px 80px',
-               borderRadius: '12px',
-               cursor: 'pointer',
-               backgroundColor: '#2196F3', // Blue background
-               color: 'white',
-               border: 'none',
-               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-               transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-             }}
-             onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-             onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-           >
-             AI Chat
-           </button>
-           <br />
-           <br />
-           <button
-             onClick={() => setPage('settings')}
-             style={{
-               fontSize: '30px',
-               padding: '20px 80px',
-               borderRadius: '12px',
-               cursor: 'pointer',
-               backgroundColor: '#2196F3', // Blue background
-               color: 'white',
-               border: 'none',
-               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow
-               transition: 'transform 0.2s, background-color 0.2s', // Smooth hover effect
-             }}
-             onMouseOver={(e) => (e.target.style.backgroundColor = '#2881C6')}
-             onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
-           >
-             Settings
-           </button>
-         </div>
+          </div>
+          <div id='profile-buttons'>
+              <button onClick={() => setPage('dmlist')} className="profile-button">
+                Messages
+              </button>
+
+            <button onClick={() => setPage('drlist')} className="profile-button">
+              Find Doctors
+            </button>
+
+            <button onClick={() => setPage('chatbox')} className="profile-button">
+              AI Chat
+            </button>
+
+            <button onClick={() => setPage('settings')} className="profile-button">
+              Settings
+            </button>
+          </div>
+
   
          {/* Navbar */}
         
