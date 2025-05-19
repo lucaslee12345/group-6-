@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { auth, db } from '../firebase';
+import { collection, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore';
 
 const SPECIALTIES = [
   "Family Medicine", "Internal Medicine", "Pediatrics", "Dermatology", "Cardiology",
@@ -64,6 +66,46 @@ function Drlist({ setPage }) {
 
   const closeMapOverlay = () => {
     setMapOverlay({ visible: false, address: "" });
+  };
+
+  const startChat = async (doctorData) => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please sign in to start a chat");
+      return;
+    }
+
+    try {
+      // Get doctor's full name
+      const doctorName = (doctorData.basic?.first_name || doctorData.basic?.last_name)
+        ? `${doctorData.basic?.first_name || ''} ${doctorData.basic?.last_name || ''}`.trim()
+        : doctorData.basic?.name || doctorData.basic?.authorized_official_name || 'Unnamed Doctor';
+
+      console.log('Starting chat with doctor:', doctorName);
+      console.log('User UID:', user.uid);
+
+      // Create the chat document in the correct path structure
+      const chatRef = doc(db, 'Messaging', user.uid);
+      const doctorRef = doc(chatRef, 'Doctors', doctorName);
+      const finalRef = doc(doctorRef, 'Final', 'chat');
+      
+      await setDoc(finalRef, {
+        doctorName: doctorName,
+        specialty: doctorData.taxonomies?.[0]?.desc || 'N/A',
+        lastMessage: "Chat started",
+        timestamp: serverTimestamp(),
+        senderId: user.uid,
+        senderName: user.displayName || 'User'
+      });
+
+      console.log('Chat document created successfully');
+      
+      // Navigate to chat interface
+      setPage('chatwithdoctor');
+    } catch (error) {
+      console.error("Error starting chat:", error);
+      alert("Failed to start chat. Please try again.");
+    }
   };
 
   return (
@@ -265,7 +307,7 @@ function Drlist({ setPage }) {
                   </div>
 
                   <button
-                    onClick={() => setPage('chatwithdoctor')}
+                    onClick={() => startChat(doc)}
                     style={{
                       padding: '0.5rem 1.2rem',
                       background: '#184d47',
