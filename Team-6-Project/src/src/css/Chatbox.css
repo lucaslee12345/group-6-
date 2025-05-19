@@ -1,19 +1,13 @@
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap');
 
-
-
-
-
 body {
-    font-family: 'Inter', sans-serif; /* Use Inter for the body font */
-    background-color: #e9ecef; /* Light gray background */
+    font-family: 'Inter', sans-serif;
+    background-color: #e9ecef;
     margin: 0;
-    
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Use full height */
-    
+    height: 100vh;
 }
 
 #chat-header {
@@ -21,105 +15,114 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    font-family: 'Roboto', sans-serif; /* Use Roboto for the header */
-    font-weight: 600; /* Bold header text */
-    font-size: 20px; /* Larger font size for the header */
-    color: #2e465f; /* Blue color for the header */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #2e465f;
 }
 
 #back-button {
     cursor: pointer;
     margin-right: 10px;
-    color: #193452; /* Blue color for back arrow */
+    color: #193452;
     font-size: 20px;
-    
-    transition: color 0.3s; /* Smooth color transition */
+    transition: color 0.3s;
 }
 
 #back-button:hover {
-    color: #0056b3; /* Darker blue on hover */
+    color: #0056b3;
 }
 
 #chat-container {
-    flex: 1; /* Allows the chat container to grow and fit the available space */
+    flex: 1;
     background: white;
     padding: 15px;
     width: 97%;
-    margin:auto;
-    height: 700px;
+    margin: auto;
+    height: 39rem;
     margin-bottom: 10px;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    overflow-y: auto; /* Scrollable container */
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
     display: flex;
-    flex-direction: column; /* Stack messages vertically */
-    font-family: 'Inter', sans-serif; /* Use Inter for chat messages */
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+}
+
+#input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 97%;
+    margin: 0 auto 20px auto;
+    animation: fadeInUp 1s;
 }
 
 #message-input {
-    width: 1350px;
+    flex-grow: 1;
     padding: 10px;
-    border: 1px solid #D1D1D6; /* Light gray border */
+    border: 1px solid #D1D1D6;
     border-radius: 15px;
-    
-    margin-right: 10px; /* Space between input and button */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
-    font-size: 16px; /* Larger font for better readability */
-    font-family: 'Inter', sans-serif; /* Use Inter for input text */
-    transition: border-color 0.3s; /* Smooth border color transition */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.3s;
 }
 
 #message-input:focus {
-    border-color: #007AFF; /* Change border color on focus */
-    outline: none; /* Remove outline */
+    border-color: #007AFF;
+    outline: none;
 }
 
 .message {
-    display: flex; /* Use flexbox for aligning items */
-    align-items: center; /* Align items vertically */
+    display: flex;
+    align-items: center;
     margin: 10px 0;
-    padding: 10px 15px; /* Padding inside message box */
-    border-radius: 20px; /* Rounded corners for message box */
-    max-width: 70%; /* Limit the width of the message box */
-    transition: background-color 0.3s; /* Smooth background color transition */
-    font-family: 'Inter', sans-serif; /* Use Inter for messages */
-    font-size: 15px; /* Slightly larger font for readability */
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 70%;
+    transition: background-color 0.3s;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
 }
 
 .message.left {
-    background-color: #f1f1f1; /* Light gray background for other users */
-    margin-right: auto; /* Align to the left */
-    color: #333; /* Darker text color for contrast */
+    background-color: #f1f1f1;
+    margin-right: auto;
+    color: #333;
 }
 
 .message.right {
-    background-color: #007AFF; /* Blue background for current user */
-    color: white; /* White text for better contrast */
-    margin-left: auto; /* Align to the right */
+    background-color: #007AFF;
+    color: white;
+    margin-left: auto;
 }
 
 #send-button {
-    padding: 10px 15px; /* Slightly increase padding for better appearance */
-    background-color: #007AFF; /* Blue background color */
-    color: white; /* White text */
-    border: none; /* Remove border */
-    border-radius: 15px; /* Rounded corners */
-    cursor: pointer; /* Changes cursor to pointer on hover */
-    font-size: 16px; /* Larger font for button */
-    font-family: 'Roboto', sans-serif; /* Use Roboto for the button */
-    font-weight: 500; /* Medium weight for the button text */
-    transition: background-color 0.3s; /* Smooth background color transition */
+    padding: 10px 15px;
+    background-color: #007AFF;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #send-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 #send-button:disabled {
-    background-color: #B0D1FF; /* Disabled button color */
-    cursor: not-allowed; /* Change cursor to not-allowed */
+    background-color: #B0D1FF;
+    cursor: not-allowed;
+    color: #666;
+    transform: scale(0.95);
 }
 
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
