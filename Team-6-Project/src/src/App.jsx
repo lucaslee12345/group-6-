@@ -8,6 +8,7 @@ import Dmlist from "./pages/Dmlist.jsx";
 import Drlist from "./pages/Drlist.jsx";
 import Chatbox from "./pages/Chatbox.jsx";
 import Settings from "./pages/Settings.jsx";
+import ChatboxwithDoctor from "./pages/Chatwithdoctor.jsx";
 
 function App() {
 	const [page, setPage] = useState("home");
@@ -29,7 +30,7 @@ function App() {
 			{page === "chatbox" && <Chatbox setPage={handleSetPage} />}
 			{page === "settings" && <Settings setPage={handleSetPage} />}
 			{page === "chatwithdoctor" && (
-				<Chatbox setPage={handleSetPage}/>
+				<ChatboxwithDoctor setPage={handleSetPage}/>
 			)}
 		</>
 	);

@@ -2,8 +2,7 @@ import { useState } from "react";
 
 import "../css/Chatwithdoctor.css";
 
-
-function Chatbox({ setPage }) {
+function Chatboxwithdoctor({ setPage }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -15,8 +14,6 @@ function Chatbox({ setPage }) {
     const userMessage = { text: inputValue, isCurrentUser: true };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInputValue("");
-    
-
 
     setTimeout(() => {
         setMessages((prevMessages) => [
@@ -102,4 +99,4 @@ function Chatbox({ setPage }) {
   );
 }
 
-export default Chatbox;
+export default Chatboxwithdoctor;

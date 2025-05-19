@@ -5,7 +5,6 @@ import '../css/Profile.css';
 import profilepicture from '../img/9706583.png'; // Adjust the path as necessary
 import { getAuth } from 'firebase/auth';
 
-
 function Profile({ setPage}) {
 
 
@@ -75,7 +74,7 @@ function Profile({ setPage}) {
                <li onClick={() => setPage('profile')}>Home</li>
                  <li onClick={() => setPage('dmlist')}>Messages</li>
                  <li onClick={() => setPage('drlist')}>Find Doctor</li>
-                 <li onClick={() => setPage('chatbox')}>AI Chat</li>
+                 <li onClick={() => setPage('chatwithdoctor')}>AI Chat</li>
                  <li onClick={() => setPage('settings')}>Settings</li>
                </ul>
              </div>

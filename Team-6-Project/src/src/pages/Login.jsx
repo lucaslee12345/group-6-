@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { doc, setDoc, collection } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import '../css/Login.css';
 import icon from '../img/9706583.png';
 
