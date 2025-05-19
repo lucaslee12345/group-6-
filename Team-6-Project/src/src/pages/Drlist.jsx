@@ -223,28 +223,9 @@ function Drlist({ setPage }) {
                     justifyContent: 'space-between',
                     minHeight: '150px',
                     border: '1.5px solid rgb(70, 106, 226)',
-                    cursor: address ? 'pointer' : 'default',
                     transition: 'box-shadow 0.18s, transform 0.13s'
                   }}
-                  onClick={() => {
-                    if (address) showMapOverlay(address);
-                  }}
-                  title={address ? "Click to view on map" : ""}
                 >
-                  <div
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.02)';
-                      e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-                    }}
-                    onClick={() => setPage('chatwithdoctor')}
-                  >
-                    <h3>Click to Chat</h3>
-                  </div>
-
                   <div style={{
                     fontWeight: 700,
                     fontSize: '1.22rem',
@@ -268,14 +249,36 @@ function Drlist({ setPage }) {
                       : 'Specialty: N/A'}
                   </div>
 
-                  <div style={{
-                    color: '#555',
-                    fontSize: '1.01rem',
-                    fontWeight: 400,
-                    textDecoration: address ? 'underline dotted' : 'none'
-                  }}>
+                  <div
+                    onClick={() => address && showMapOverlay(address)}
+                    style={{
+                      color: '#555',
+                      fontSize: '1.01rem',
+                      fontWeight: 400,
+                      textDecoration: address ? 'underline dotted' : 'none',
+                      cursor: address ? 'pointer' : 'default',
+                      marginBottom: '1rem'
+                    }}
+                    title={address ? "Click to view on map" : ""}
+                  >
                     {address ? `Address: ${address}` : 'Address: N/A'}
                   </div>
+
+                  <button
+                    onClick={() => setPage('chatwithdoctor')}
+                    style={{
+                      padding: '0.5rem 1.2rem',
+                      background: '#184d47',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '1rem',
+                      alignSelf: 'start'
+                    }}
+                  >
+                    Chat with Doctor
+                  </button>
                 </div>
               );
             })}
