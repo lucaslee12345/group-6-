@@ -56,48 +56,51 @@ function Chatboxwithdoctor({ setPage, pageData }) {
 
   const saveMessage = async (text, isCurrentUser) => {
     if (!user || !doctorName) return;
-  
+
     const timestamp = Date.now().toString();
     const messageData = {
       text,
       isCurrentUser,
       timestamp: new Date().toISOString()
     };
-  
-    const messageDocRef = doc(
-      db,
-      "Messaging",
-      user.uid,
-      "doctors",
-      doctorName,
-      "chats",
-      "chat",
-      "messages",
-      timestamp
-    );
-  
-    await setDoc(messageDocRef, messageData);
-  
-    // ✅ Correct quickInfo document reference
-    const quickInfoRef = doc(
-      db,
-      "Messaging",
-      user.uid,
-      "doctors",
-      doctorName,
-      "quickInfo",
-      "info"
-    );
-  
-    await setDoc(
-      quickInfoRef,
-      {
-        lastMessage: text,
-        timestamp: new Date()
-      },
-      { merge: true }
-    );
-  };  
+
+    try {
+      // Save individual message
+      const messageDocRef = doc(
+        db,
+        "Messaging",
+        user.uid,
+        "doctors",
+        doctorName,
+        "chats",
+        "chat",
+        "messages",
+        timestamp
+      );
+      await setDoc(messageDocRef, messageData);
+
+      // Save or update doctor summary (last message)
+      const doctorDocRef = doc(
+        db,
+        "Messaging",
+        user.uid,
+        "doctors",
+        doctorName
+      );
+      await setDoc(
+        doctorDocRef,
+        {
+          lastMessage: text,
+          lastMessageTimestamp: new Date().toISOString(),
+          name: doctorName // Optional: Store name for easier display
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      console.error("Failed to save message or update summary:", error);
+    }
+  };
+
 
   const sendMessage = async () => {
     if (inputValue.trim() === "") return;

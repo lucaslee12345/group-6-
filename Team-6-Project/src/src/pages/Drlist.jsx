@@ -63,7 +63,7 @@ function Drlist({ setPage }) {
       alert("Please sign in to start a chat.");
       return;
     }
-  
+
     const first = doctorData.basic?.first_name || '';
     const last = doctorData.basic?.last_name || '';
     const fallbackName = doctorData.basic?.name || doctorData.basic?.authorized_official_name || 'Unnamed Doctor';
@@ -72,26 +72,23 @@ function Drlist({ setPage }) {
     const address = doctorData.addresses?.[0]
       ? `${doctorData.addresses[0].address_1}, ${doctorData.addresses[0].city}, ${doctorData.addresses[0].state} ${doctorData.addresses[0].postal_code}`
       : 'N/A';
-  
+
     const userUID = user.uid;
-  
+
     try {
-      // Reference to doctor document inside doctors collection under the user
-      const doctorDocRef = doc(db, 'Messaging', userUID, 'doctors', doctorName);
-  
-      // Set or update quickInfo fields directly on doctor document (simpler)
-      await setDoc(doctorDocRef, {
-        doctorName,
-        specialty,
-        address,
-        lastMessage: "Chat started",
-        timestamp: serverTimestamp(),
-      }, { merge: true }); // merge so it updates if exists
-  
-      // Create a subcollection 'chats' with a chat doc or just create a chat doc here
-      // For simplicity, create 'chat' document inside the doctorDocRef subcollection 'chats'
-      const chatDocRef = doc(collection(doctorDocRef, 'chats'), 'chat'); // or you can use addDoc for multiple chats
-  
+      // COMMENT OUT or REMOVE quickInfo doc creation:
+      // const doctorDocRef = doc(db, 'Messaging', userUID, 'doctors', doctorName);
+      // await setDoc(doctorDocRef, {
+      //   doctorName,
+      //   specialty,
+      //   address,
+      //   lastMessage: "Chat started",
+      //   timestamp: serverTimestamp(),
+      // }, { merge: true });
+
+      // Instead, just create chat document directly under Messaging/{userUID}/doctors/{doctorName}/chats/chat
+      const chatDocRef = doc(collection(doc(db, 'Messaging', userUID, 'doctors', doctorName), 'chats'), 'chat');
+
       await setDoc(chatDocRef, {
         createdAt: serverTimestamp(),
         doctorName,
@@ -99,8 +96,9 @@ function Drlist({ setPage }) {
         messages: [],
         lastMessage: "Chat started",
         userId: userUID,
+        address,  // add address here if needed
       });
-  
+
       setPage('chatwithdoctor', {
         name: doctorName,
         specialty: specialty,
@@ -114,7 +112,8 @@ function Drlist({ setPage }) {
       console.error("Failed to create chat", e);
       alert("Failed to start chat.");
     }
-  };      
+  };
+  
 
   return (
     <div style={{ padding: '2.5rem', background: 'linear-gradient(120deg,#8ba2eb,#6792ee)', minHeight: '100vh' }}>
