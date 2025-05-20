@@ -12,6 +12,7 @@ function Profile({ setPage}) {
  const [username, setUsername] = useState('');
 
 
+
  useEffect(() => {
    const fetchUserData = async () => {
      const user = auth.currentUser;
@@ -56,6 +57,7 @@ function Profile({ setPage}) {
 
    return (
        <>
+          <div>HI HI HI</div>
          {/* Profile Picture in the Top-Right Corner */}
          <img
                  src={profilepicture}
