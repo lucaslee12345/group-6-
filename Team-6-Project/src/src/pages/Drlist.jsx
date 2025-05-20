@@ -58,37 +58,28 @@ function Drlist({ setPage }) {
   const closeMap = () => setMapOverlay({ visible: false, address: "" });
 
   const startChat = async (doctorData) => {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please sign in to start a chat.");
-      return;
-    }
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Please sign in to start a chat.");
+    return;
+  }
 
-    const first = doctorData.basic?.first_name || '';
-    const last = doctorData.basic?.last_name || '';
-    const fallbackName = doctorData.basic?.name || doctorData.basic?.authorized_official_name || 'Unnamed Doctor';
-    const doctorName = (first || last) ? `${first} ${last}`.trim() : fallbackName;
-    const specialty = doctorData.taxonomies?.[0]?.desc || 'N/A';
-    const address = doctorData.addresses?.[0]
-      ? `${doctorData.addresses[0].address_1}, ${doctorData.addresses[0].city}, ${doctorData.addresses[0].state} ${doctorData.addresses[0].postal_code}`
-      : 'N/A';
+  const first = doctorData.basic?.first_name || '';
+  const last = doctorData.basic?.last_name || '';
+  const fallbackName = doctorData.basic?.name || doctorData.basic?.authorized_official_name || 'Unnamed Doctor';
+  const doctorName = (first || last) ? `${first} ${last}`.trim() : fallbackName;
+  const specialty = doctorData.taxonomies?.[0]?.desc || 'N/A';
+  const address = doctorData.addresses?.[0]
+    ? `${doctorData.addresses[0].address_1}, ${doctorData.addresses[0].city}, ${doctorData.addresses[0].state} ${doctorData.addresses[0].postal_code}`
+    : 'N/A';
 
-    const userUID = user.uid;
+  const userUID = user.uid;
 
-    try {
-      // COMMENT OUT or REMOVE quickInfo doc creation:
-      // const doctorDocRef = doc(db, 'Messaging', userUID, 'doctors', doctorName);
-      // await setDoc(doctorDocRef, {
-      //   doctorName,
-      //   specialty,
-      //   address,
-      //   lastMessage: "Chat started",
-      //   timestamp: serverTimestamp(),
-      // }, { merge: true });
-
-      // Instead, just create chat document directly under Messaging/{userUID}/doctors/{doctorName}/chats/chat
-      const chatDocRef = doc(collection(doc(db, 'Messaging', userUID, 'doctors', doctorName), 'chats'), 'chat');
-
+  try {
+    // Only create chat doc if it doesn't exist
+    const chatDocRef = doc(collection(doc(db, 'Messaging', userUID, 'doctors', doctorName), 'chats'), 'chat');
+    const chatSnap = await getDoc(chatDocRef);
+    if (!chatSnap.exists()) {
       await setDoc(chatDocRef, {
         createdAt: serverTimestamp(),
         doctorName,
@@ -96,24 +87,26 @@ function Drlist({ setPage }) {
         messages: [],
         lastMessage: "Chat started",
         userId: userUID,
-        address,  // add address here if needed
+        address,
       });
-
-      setPage('chatwithdoctor', {
-        name: doctorName,
-        specialty: specialty,
-        address: address,
-        npi: doctorData.npi,
-        basic: doctorData.basic,
-        addresses: doctorData.addresses,
-        taxonomies: doctorData.taxonomies
-      });
-    } catch (e) {
-      console.error("Failed to create chat", e);
-      alert("Failed to start chat.");
     }
-  };
-  
+
+    // Navigate to chat page
+    setPage('chatwithdoctor', {
+      name: doctorName,
+      specialty,
+      address,
+      npi: doctorData.npi,
+      basic: doctorData.basic,
+      addresses: doctorData.addresses,
+      taxonomies: doctorData.taxonomies
+    });
+  } catch (e) {
+    console.error("Failed to create chat", e);
+    alert("Failed to start chat.");
+  }
+};
+
 
   return (
     <div style={{ padding: '2.5rem', background: 'linear-gradient(120deg,#8ba2eb,#6792ee)', minHeight: '100vh' }}>
