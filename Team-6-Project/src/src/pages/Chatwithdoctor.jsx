@@ -77,48 +77,49 @@ function Chatboxwithdoctor({ setPage, pageData }) {
   }, [db, user, pageData?.name]);
 
   const saveMessage = async (text, isCurrentUser) => {
-    if (!user || !pageData?.name) return;
-
-    const timestamp = new Date().toISOString();
+    if (!user || !doctorName) return;
+  
+    const timestamp = Date.now().toString();
     const messageData = {
       text,
       isCurrentUser,
       timestamp
     };
-
-    try {
-      // Save message
-      const messageDocRef = doc(
-        db,
-        "Messaging",
-        user.uid,
-        "doctors",
-        pageData.name,
-        "chats",
-        "chat",
-        "messages",
-        timestamp
-      );
-      await setDoc(messageDocRef, messageData);
-
-      // Update quickInfo
-      const quickInfoRef = doc(
-        db,
-        "Messaging",
-        user.uid,
-        "doctors",
-        pageData.name,
-        "quickInfo",
-        "info"
-      );
-      await setDoc(quickInfoRef, {
+  
+    const messageDocRef = doc(
+      db,
+      "Messaging",
+      user.uid,
+      "doctors",
+      doctorName,
+      "chats",
+      "chat",
+      "messages",
+      timestamp
+    );
+  
+    await setDoc(messageDocRef, messageData);
+  
+    // ✅ Correct quickInfo document reference
+    const quickInfoRef = doc(
+      db,
+      "Messaging",
+      user.uid,
+      "doctors",
+      doctorName,
+      "quickInfo",
+      "info"
+    );
+  
+    await setDoc(
+      quickInfoRef,
+      {
         lastMessage: text,
-        timestamp
-      }, { merge: true });
-    } catch (error) {
-      console.error("Failed to save message:", error);
-    }
-  };
+        timestamp: new Date()
+      },
+      { merge: true }
+    );
+  };  
 
   const sendMessage = async () => {
     if (inputValue.trim() === "") return;
