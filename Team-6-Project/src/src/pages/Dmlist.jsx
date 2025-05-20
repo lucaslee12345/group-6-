@@ -116,7 +116,7 @@ function Dmlist({ setPage }) {
           e.currentTarget.style.transform = 'scale(1)';
           e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
         }}
-        onClick={() => setPage('chatbox')}
+        onClick={() => setPage('chatwithdoctor')}
       >
         <img
           src={profilepicture}
