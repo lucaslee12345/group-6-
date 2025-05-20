@@ -22,28 +22,30 @@ function Chatboxwithdoctor({ setPage, pageData }) {
 
   const db = getFirestore();
   const auth = getAuth();
-  const doctorName = pageData?.name || "Unknown Doctor";
+  const doctorName = pageData?.name;
 
-  // Get current user on mount
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, [auth]);
+    const unsubscribe = onAuthStateChanged(auth, setUser);
+    return unsubscribe;
+  }, []);
 
-  // Load previous messages
   useEffect(() => {
     const fetchMessages = async () => {
       if (!user || !doctorName) return;
+
       try {
         const messagesRef = collection(
           db,
-          `Messaging/${user.uid}/doctors/${doctorName}/chats/chat/messages`
+          "Messaging",
+          user.uid,
+          "doctors",
+          doctorName,
+          "chats",
+          "chat",
+          "messages"
         );
-        const q = query(messagesRef, orderBy("__name__"));
+        const q = query(messagesRef, orderBy("timestamp"));
         const querySnapshot = await getDocs(q);
-
         const loadedMessages = querySnapshot.docs.map(doc => doc.data());
         setMessages(loadedMessages);
       } catch (error) {
@@ -65,7 +67,6 @@ function Chatboxwithdoctor({ setPage, pageData }) {
     };
 
     try {
-      // Save individual message
       const messageDocRef = doc(
         db,
         "Messaging",
@@ -79,28 +80,20 @@ function Chatboxwithdoctor({ setPage, pageData }) {
       );
       await setDoc(messageDocRef, messageData);
 
-      // Save or update doctor summary (last message)
-      const doctorDocRef = doc(
+      const quickInfoRef = doc(
         db,
         "Messaging",
         user.uid,
         "doctors",
-        doctorName
+        doctorName,
+        "quickInfo",
+        "info"
       );
-      await setDoc(
-        doctorDocRef,
-        {
-          lastMessage: text,
-          lastMessageTimestamp: new Date().toISOString(),
-          name: doctorName // Optional: Store name for easier display
-        },
-        { merge: true }
-      );
+      await setDoc(quickInfoRef, { lastMessage: text, timestamp: new Date() }, { merge: true });
     } catch (error) {
-      console.error("Failed to save message or update summary:", error);
+      console.error("Failed to save message:", error);
     }
   };
-
 
   const sendMessage = async () => {
     if (inputValue.trim() === "") return;
@@ -114,7 +107,6 @@ function Chatboxwithdoctor({ setPage, pageData }) {
     setMessages(updatedMessages);
     setInputValue("");
     setIsLoading(true);
-
     await saveMessage(userMessage.text, true);
 
     setTimeout(async () => {
@@ -126,82 +118,42 @@ function Chatboxwithdoctor({ setPage, pageData }) {
       const allMessages = [...updatedMessages, reply];
       setMessages(allMessages);
       setIsLoading(false);
-
       await saveMessage(reply.text, false);
     }, 1000);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
+    if (e.key === "Enter") sendMessage();
   };
 
-  const leaveChat = () => {
-    alert("You have left the chat.");
-    setPage("profile");
-  };
+  const leaveChat = () => setPage("profile");
 
   return (
     <div className="chatbox">
-      <div id="chat-header" style={{ animation: "fadeIn 1s" }}>
-        <span
-          id="back-button"
-          onClick={leaveChat}
-          style={{ cursor: "pointer" }}
-        >
-          ←
-        </span>
-        <h2 style={{ animation: "slideIn 1s" }}>Chat with {doctorName}</h2>
+      <div id="chat-header">
+        <span id="back-button" onClick={leaveChat}>←</span>
+        <h2>Chat with {doctorName || "Unknown Doctor"}</h2>
       </div>
-
       <div id="chat-container">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`message ${message.isCurrentUser ? "right" : "left"}`}
-            style={{
-              animation: message.isCurrentUser
-                ? "slideInRight 0.5s"
-                : "slideInLeft 0.5s"
-            }}
-          >
-            <span>{message.text}</span>
+        {messages.map((msg, i) => (
+          <div key={i} className={`message ${msg.isCurrentUser ? "right" : "left"}`}>
+            <span>{msg.text}</span>
+            <div style={{ fontSize: "0.7em", color: "#888" }}>{msg.timestamp}</div>
           </div>
         ))}
         {isLoading && (
-          <div className="message left" style={{ animation: "fadeIn 0.5s" }}>
-            <span>Typing...</span>
-          </div>
+          <div className="message left"><span>Typing...</span></div>
         )}
       </div>
-
-      <div id="input-container" style={{ animation: "fadeInUp 1s" }}>
+      <div id="input-container">
         <input
           type="text"
-          id="message-input"
-          placeholder="Type your message..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
-          style={{
-            transition: "box-shadow 0.3s",
-            boxShadow: inputValue
-              ? "0 0 10px rgba(33, 150, 243, 0.5)"
-              : "none"
-          }}
+          placeholder="Type your message..."
         />
-        <button
-          id="send-button"
-          onClick={sendMessage}
-          disabled={!inputValue.trim() || isLoading}
-          style={{
-            backgroundColor: isLoading ? "#ccc" : "#2196F3",
-            color: isLoading ? "#666" : "#fff",
-            transition: "background-color 0.3s, transform 0.2s",
-            transform: isLoading ? "scale(0.95)" : "scale(1)"
-          }}
-        >
+        <button onClick={sendMessage} disabled={!inputValue.trim() || isLoading}>
           {isLoading ? "Loading..." : "Send"}
         </button>
       </div>

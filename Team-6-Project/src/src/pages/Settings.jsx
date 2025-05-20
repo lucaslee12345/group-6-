@@ -175,7 +175,43 @@ const Settings = ({ setPage }) => {
 
   const deleteUserAndData = async (user) => {
     try {
+      // Delete all messaging data
+      const messagingRef = collection(db, 'Messaging', user.uid);
+      const messagingSnapshot = await getDocs(messagingRef);
+      
+      // Delete all doctors and their chats
+      for (const doctorDoc of messagingSnapshot.docs) {
+        const doctorName = doctorDoc.id;
+        const doctorRef = doc(db, 'Messaging', user.uid, doctorName);
+        
+        // Get all subcollections (Messages and quickInfo)
+        const messagesRef = collection(doctorRef, 'Messages');
+        const messagesSnapshot = await getDocs(messagesRef);
+        
+        // Delete all messages
+        for (const messageDoc of messagesSnapshot.docs) {
+          await deleteDoc(doc(messagesRef, messageDoc.id));
+        }
+        
+        // Delete quickInfo document if it exists
+        const quickInfoRef = doc(doctorRef, 'quickInfo');
+        await deleteDoc(quickInfoRef).catch(() => {}); // Ignore if doesn't exist
+        
+        // Delete chat document if it exists
+        const chatRef = doc(doctorRef, 'chat');
+        await deleteDoc(chatRef).catch(() => {}); // Ignore if doesn't exist
+        
+        // Delete the doctor document
+        await deleteDoc(doctorRef);
+      }
+
+      // Delete the user's messaging root document
+      await deleteDoc(doc(db, 'Messaging', user.uid));
+
+      // Delete the user's account document
       await deleteDoc(doc(db, 'Accounts', user.uid));
+
+      // Delete the user from Firebase Auth
       await user.delete();
     } catch (err) {
       console.error("Error deleting user data:", err);
@@ -204,8 +240,7 @@ const Settings = ({ setPage }) => {
   
       // If user signed in with Google, no password is needed
       if (user.providerData[0].providerId === 'google.com') {
-        await deleteDoc(doc(db, 'Accounts', user.uid));
-        await user.delete();
+        await deleteUserAndData(user);
         alert("Account deleted successfully.");
         setPage("home");
         return;
@@ -215,11 +250,8 @@ const Settings = ({ setPage }) => {
       const credential = EmailAuthProvider.credential(user.email, deletePass);
       await reauthenticateWithCredential(user, credential);
   
-      // Delete Firestore document
-      await deleteDoc(doc(db, 'Accounts', user.uid));
-  
-      // Delete user from Firebase Auth
-      await user.delete();
+      // Delete all user data
+      await deleteUserAndData(user);
   
       alert("Account deleted successfully.");
       setPage("home");
