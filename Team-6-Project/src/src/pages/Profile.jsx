@@ -57,7 +57,6 @@ function Profile({ setPage}) {
 
    return (
        <>
-          <div>HI HI HI</div>
          {/* Profile Picture in the Top-Right Corner */}
          <img
                  src={profilepicture}
