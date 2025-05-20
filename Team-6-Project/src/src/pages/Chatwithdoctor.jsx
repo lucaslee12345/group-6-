@@ -1,29 +1,77 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "firebase/firestore";
+import {
+  getAuth,
+  onAuthStateChanged
+} from "firebase/auth";
 import "../css/Chatwithdoctor.css";
 
-function Chatboxwithdoctor({ setPage }) {
+function Chatboxwithdoctor({ setPage, pageData }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const db = getFirestore();
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Use the doctor name from props
+  const doctorName = pageData?.name || "Unknown Doctor";
+  const currentDate = Date.now();
+  const saveMessagesToFirestore = async (allMessages) => {
+    console.log(user.uid);
+    console.log(doctorName);
+    if (!user) return;
+
+    // TODO: error for some reason
+    const finalDocRef = doc(
+      db,
+      "Messaging", user.uid,
+      doctorName, "Messages"
+    );    
+
+    await setDoc(finalDocRef, {
+      messages: allMessages,
+      lastUpdated: new Date()
+    });
+  };
 
   const sendMessage = async () => {
     if (inputValue.trim() === "") return;
 
-    // Add the user's message to the chat
     const userMessage = { text: inputValue, isCurrentUser: true };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputValue("");
+    setIsLoading(true);
 
-    setTimeout(() => {
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            { text: "This is a response from the other user.", isCurrentUser: false },
-        ]);
+    // Save after user message
+    await saveMessagesToFirestore(updatedMessages);
+
+    // Simulate responder reply
+    setTimeout(async () => {
+      const reply = {
+        text: "This is a response from the other user.",
+        isCurrentUser: false
+      };
+      const allMessages = [...updatedMessages, reply];
+      setMessages(allMessages);
+      setIsLoading(false);
+
+      // Save after reply
+      await saveMessagesToFirestore(allMessages);
     }, 1000);
-
-    // Call the GoogleGenAI API
-    
   };
 
   const handleKeyPress = (e) => {
@@ -39,22 +87,26 @@ function Chatboxwithdoctor({ setPage }) {
 
   return (
     <div className="chatbox">
-      {/* Chat Header */}
       <div id="chat-header" style={{ animation: "fadeIn 1s" }}>
-        <span id="back-button" onClick={leaveChat} style={{ cursor: "pointer" }}>
+        <span
+          id="back-button"
+          onClick={leaveChat}
+          style={{ cursor: "pointer" }}
+        >
           ←
         </span>
         <h2 style={{ animation: "slideIn 1s" }}>Chat with Doctor</h2>
       </div>
 
-      {/* Chat Container */}
       <div id="chat-container">
         {messages.map((message, index) => (
           <div
             key={index}
             className={`message ${message.isCurrentUser ? "right" : "left"}`}
             style={{
-              animation: message.isCurrentUser ? "slideInRight 0.5s" : "slideInLeft 0.5s",
+              animation: message.isCurrentUser
+                ? "slideInRight 0.5s"
+                : "slideInLeft 0.5s"
             }}
           >
             <span>{message.text}</span>
@@ -67,7 +119,6 @@ function Chatboxwithdoctor({ setPage }) {
         )}
       </div>
 
-      {/* Input Container */}
       <div id="input-container" style={{ animation: "fadeInUp 1s" }}>
         <input
           type="text"
@@ -78,7 +129,9 @@ function Chatboxwithdoctor({ setPage }) {
           onKeyPress={handleKeyPress}
           style={{
             transition: "box-shadow 0.3s",
-            boxShadow: inputValue ? "0 0 10px rgba(33, 150, 243, 0.5)" : "none",
+            boxShadow: inputValue
+              ? "0 0 10px rgba(33, 150, 243, 0.5)"
+              : "none"
           }}
         />
         <button
@@ -89,7 +142,7 @@ function Chatboxwithdoctor({ setPage }) {
             backgroundColor: isLoading ? "#ccc" : "#2196F3",
             color: isLoading ? "#666" : "#fff",
             transition: "background-color 0.3s, transform 0.2s",
-            transform: isLoading ? "scale(0.95)" : "scale(1)",
+            transform: isLoading ? "scale(0.95)" : "scale(1)"
           }}
         >
           {isLoading ? "Loading..." : "Send"}

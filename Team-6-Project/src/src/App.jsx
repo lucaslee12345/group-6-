@@ -20,6 +20,8 @@ function App() {
     setPageData(data);
   };
 
+  // TODO: pull the Dr list from Drlist.jsx
+
   return (
     <>
       {page === "home" && <HomePage setPage={handleSetPage} />}
@@ -30,8 +32,9 @@ function App() {
       {page === "chatbox" && <Chatbox setPage={handleSetPage} />}
       {page === "settings" && <Settings setPage={handleSetPage} />}
       {page === "chatwithdoctor" && (
-        <ChatboxwithDoctor setPage={handleSetPage} pageData={pageData} />
-      )}
+		<ChatboxwithDoctor setPage={handleSetPage} pageData={pageData} />
+	  )}
+
     </>
   );
 }
