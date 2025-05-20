@@ -6,7 +6,9 @@ import {
   getDocs,
   collection,
   query,
-  orderBy
+  orderBy,
+  onSnapshot,
+  getDoc
 } from "firebase/firestore";
 import {
   getAuth,
@@ -19,10 +21,10 @@ function Chatboxwithdoctor({ setPage, pageData }) {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [doctorData, setDoctorData] = useState(null);
 
   const db = getFirestore();
   const auth = getAuth();
-  const doctorName = pageData?.name;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -30,49 +32,68 @@ function Chatboxwithdoctor({ setPage, pageData }) {
   }, []);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      if (!user || !doctorName) return;
+    const fetchDoctorData = async () => {
+      if (!user || !pageData?.name) return;
 
       try {
-        const messagesRef = collection(
-          db,
-          "Messaging",
-          user.uid,
-          "doctors",
-          doctorName,
-          "chats",
-          "chat",
-          "messages"
-        );
-        const q = query(messagesRef, orderBy("timestamp"));
-        const querySnapshot = await getDocs(q);
-        const loadedMessages = querySnapshot.docs.map(doc => doc.data());
-        setMessages(loadedMessages);
+        const chatRef = doc(db, 'Messaging', user.uid, 'doctors', pageData.name, 'chats', 'chat');
+        const chatSnap = await getDoc(chatRef);
+        if (chatSnap.exists()) {
+          setDoctorData(chatSnap.data());
+        }
       } catch (error) {
-        console.error("Error loading messages:", error);
+        console.error("Error fetching doctor data:", error);
       }
     };
 
-    fetchMessages();
-  }, [db, user, doctorName]);
+    fetchDoctorData();
+  }, [user, pageData?.name]);
+
+  useEffect(() => {
+    if (!user || !pageData?.name) return;
+
+    const messagesRef = collection(
+      db,
+      "Messaging",
+      user.uid,
+      "doctors",
+      pageData.name,
+      "chats",
+      "chat",
+      "messages"
+    );
+
+    const q = query(messagesRef, orderBy("timestamp"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const loadedMessages = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setMessages(loadedMessages);
+    });
+
+    return () => unsubscribe();
+  }, [db, user, pageData?.name]);
 
   const saveMessage = async (text, isCurrentUser) => {
-    if (!user || !doctorName) return;
+    if (!user || !pageData?.name) return;
 
-    const timestamp = Date.now().toString();
+    const timestamp = new Date().toISOString();
     const messageData = {
       text,
       isCurrentUser,
-      timestamp: new Date().toISOString()
+      timestamp
     };
 
     try {
+      // Save message
       const messageDocRef = doc(
         db,
         "Messaging",
         user.uid,
         "doctors",
-        doctorName,
+        pageData.name,
         "chats",
         "chat",
         "messages",
@@ -80,16 +101,20 @@ function Chatboxwithdoctor({ setPage, pageData }) {
       );
       await setDoc(messageDocRef, messageData);
 
+      // Update quickInfo
       const quickInfoRef = doc(
         db,
         "Messaging",
         user.uid,
         "doctors",
-        doctorName,
+        pageData.name,
         "quickInfo",
         "info"
       );
-      await setDoc(quickInfoRef, { lastMessage: text, timestamp: new Date() }, { merge: true });
+      await setDoc(quickInfoRef, {
+        lastMessage: text,
+        timestamp
+      }, { merge: true });
     } catch (error) {
       console.error("Failed to save message:", error);
     }
@@ -103,22 +128,19 @@ function Chatboxwithdoctor({ setPage, pageData }) {
       isCurrentUser: true,
       timestamp: new Date().toISOString()
     };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
     setInputValue("");
     setIsLoading(true);
     await saveMessage(userMessage.text, true);
 
+    // Simulate doctor response
     setTimeout(async () => {
       const reply = {
-        text: "This is a response from the other user.",
+        text: "Thank you for your message. I will get back to you as soon as possible.",
         isCurrentUser: false,
         timestamp: new Date().toISOString()
       };
-      const allMessages = [...updatedMessages, reply];
-      setMessages(allMessages);
-      setIsLoading(false);
       await saveMessage(reply.text, false);
+      setIsLoading(false);
     }, 1000);
   };
 
@@ -126,19 +148,35 @@ function Chatboxwithdoctor({ setPage, pageData }) {
     if (e.key === "Enter") sendMessage();
   };
 
-  const leaveChat = () => setPage("profile");
+  const leaveChat = () => setPage("dmlist");
+
+  if (!pageData?.name) {
+    return (
+      <div className="chatbox">
+        <div id="chat-header">
+          <span id="back-button" onClick={leaveChat}>←</span>
+          <h2>Error: No doctor selected</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="chatbox">
       <div id="chat-header">
         <span id="back-button" onClick={leaveChat}>←</span>
-        <h2>Chat with {doctorName || "Unknown Doctor"}</h2>
+        <div>
+          <h2>Dr. {pageData.name}</h2>
+          {doctorData?.specialty && <p style={{ margin: 0, fontSize: '0.9em', color: '#666' }}>{doctorData.specialty}</p>}
+        </div>
       </div>
       <div id="chat-container">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.isCurrentUser ? "right" : "left"}`}>
             <span>{msg.text}</span>
-            <div style={{ fontSize: "0.7em", color: "#888" }}>{msg.timestamp}</div>
+            <div style={{ fontSize: "0.7em", color: "#888" }}>
+              {new Date(msg.timestamp).toLocaleTimeString()}
+            </div>
           </div>
         ))}
         {isLoading && (
