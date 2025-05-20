@@ -29,32 +29,19 @@ function Dmlist({ setPage }) {
 
       for (const docSnap of doctorDocsSnapshot.docs) {
         const doctorName = docSnap.id;
-        
-        // Get chat metadata
-        const chatRef = doc(db, 'Messaging', user.uid, 'doctors', doctorName, 'chats', 'chat');
-        const chatSnap = await getDoc(chatRef);
-        const chatData = chatSnap.exists() ? chatSnap.data() : {};
-        
-        // Get quickInfo for last message
+        const doctorData = docSnap.data();
+
         const quickInfoRef = doc(db, 'Messaging', user.uid, 'doctors', doctorName, 'quickInfo', 'info');
         const quickInfoSnap = await getDoc(quickInfoRef);
-        const quickInfoData = quickInfoSnap.exists() ? quickInfoSnap.data() : {};
 
         chats.push({
           doctorName,
-          specialty: chatData.specialty || '',
-          address: chatData.address || '',
-          lastMessage: quickInfoData.lastMessage || '',
-          timestamp: quickInfoData.timestamp || '',
-          npi: chatData.npi || '',
-          basic: chatData.basic || {},
-          addresses: chatData.addresses || [],
-          taxonomies: chatData.taxonomies || []
+          location: doctorData.location || '',
+          specialty: doctorData.specialty || '',
+          lastMessage: quickInfoSnap.exists() ? quickInfoSnap.data().lastMessage || '' : '',
         });
       }
 
-      // Sort chats by timestamp
-      chats.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       setPreviousChats(chats);
     } catch (error) {
       console.error('Error fetching chats:', error);
@@ -65,27 +52,23 @@ function Dmlist({ setPage }) {
     setIsPanelVisible(!isPanelVisible);
   };
 
-  const DoctorBox = ({ doctorName, specialty, address, lastMessage, npi, basic, addresses, taxonomies }) => (
+  const DoctorBox = ({ doctorName, location, specialty, lastMessage }) => (
     <div
       className="doctor-box"
       onClick={() =>
         setPage('chatwithdoctor', {
           name: doctorName,
-          specialty,
-          address,
-          npi,
-          basic,
-          addresses,
-          taxonomies
+          location,
+          specialty
         })
       }
     >
       <img src={profilepicture} width="60" height="60" style={{ borderRadius: '50%', marginRight: '15px' }} />
       <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-        <p style={{ fontWeight: 'bold', margin: 0 }}>Dr. {doctorName}</p>
+        <p style={{ fontWeight: 'bold', margin: 0 }}>{doctorName}</p>
+        <p style={{ margin: 0 }}>{location}</p>
         <p style={{ margin: 0 }}>{specialty}</p>
-        <p style={{ margin: 0 }}>{address}</p>
-        <p style={{ margin: 0, color: '#666' }}>{lastMessage}</p>
+        <p style={{ margin: 0 }}>{lastMessage}</p>
       </div>
     </div>
   );
@@ -103,13 +86,9 @@ function Dmlist({ setPage }) {
             <DoctorBox
               key={i}
               doctorName={chat.doctorName}
+              location={chat.location}
               specialty={chat.specialty}
-              address={chat.address}
               lastMessage={chat.lastMessage}
-              npi={chat.npi}
-              basic={chat.basic}
-              addresses={chat.addresses}
-              taxonomies={chat.taxonomies}
             />
           ))
         )}
