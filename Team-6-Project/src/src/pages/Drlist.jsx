@@ -19,6 +19,9 @@ function Drlist({ setPage }) {
   const [mapOverlay, setMapOverlay] = useState({ visible: false, address: "" });
   const [showNoNameDoctors, setShowNoNameDoctors] = useState(false);
 
+  const [isPanelVisible, setIsPanelVisible] = useState(false);
+  const togglePanel = () => setIsPanelVisible(v => !v);
+
   const lookupDoctors = async () => {
     setError('');
     setDoctors([]);
@@ -186,6 +189,22 @@ function Drlist({ setPage }) {
           </div>
         )}
       </div>
+
+      <div id="newnavbar">
+          <button onClick={togglePanel}>☰</button>
+          <div className={`sliding-panel ${isPanelVisible ? 'visible' : ''}`}>
+            <button className="close-panel" onClick={togglePanel}>
+              ✖
+            </button>
+            <ul>
+              <li onClick={() => setPage('profile')}>Home</li>
+              <li onClick={() => setPage('dmlist')}>Messages</li>
+              <li onClick={() => setPage('drlist')}>Find Doctor</li>
+              <li onClick={() => setPage('chatbox')}>AI Chat</li>
+              <li onClick={() => setPage('settings')}>Settings</li>
+            </ul>
+          </div>
+        </div>
     </div>
   );
 }
