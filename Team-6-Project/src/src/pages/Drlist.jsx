@@ -71,11 +71,24 @@ function Drlist({ setPage }) {
       : 'N/A';
   
     const userUID = user.uid;
-    const messagingPath = `Messaging/${userUID}/${doctorName}`;
   
     try {
-      // Create a new document called 'chat' with minimal initial data
-      const chatDocRef = doc(db, messagingPath, 'chat');
+      // Reference to doctor document inside doctors collection under the user
+      const doctorDocRef = doc(db, 'Messaging', userUID, 'doctors', doctorName);
+  
+      // Set or update quickInfo fields directly on doctor document (simpler)
+      await setDoc(doctorDocRef, {
+        doctorName,
+        specialty,
+        address,
+        lastMessage: "Chat started",
+        timestamp: serverTimestamp(),
+      }, { merge: true }); // merge so it updates if exists
+  
+      // Create a subcollection 'chats' with a chat doc or just create a chat doc here
+      // For simplicity, create 'chat' document inside the doctorDocRef subcollection 'chats'
+      const chatDocRef = doc(collection(doctorDocRef, 'chats'), 'chat'); // or you can use addDoc for multiple chats
+  
       await setDoc(chatDocRef, {
         createdAt: serverTimestamp(),
         doctorName,
@@ -85,17 +98,6 @@ function Drlist({ setPage }) {
         userId: userUID,
       });
   
-      // Also create or update quickInfo (summary)
-      const quickInfoRef = doc(db, messagingPath, 'quickInfo');
-      await setDoc(quickInfoRef, {
-        doctorName,
-        specialty,
-        address,
-        lastMessage: "Chat started",
-        timestamp: serverTimestamp(),
-      });
-  
-      // Pass complete doctor data to the chat page
       setPage('chatwithdoctor', {
         name: doctorName,
         specialty: specialty,
@@ -109,7 +111,7 @@ function Drlist({ setPage }) {
       console.error("Failed to create chat", e);
       alert("Failed to start chat.");
     }
-  };    
+  };      
 
   return (
     <div style={{ padding: '2.5rem', background: 'linear-gradient(120deg,#8ba2eb,#6792ee)', minHeight: '100vh' }}>

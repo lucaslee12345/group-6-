@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import {
   getFirestore,
   doc,
-  setDoc
+  setDoc,
+  getDocs,
+  collection,
+  query,
+  orderBy
 } from "firebase/firestore";
 import {
   getAuth,
@@ -18,63 +22,109 @@ function Chatboxwithdoctor({ setPage, pageData }) {
 
   const db = getFirestore();
   const auth = getAuth();
+  const doctorName = pageData?.name || "Unknown Doctor";
 
+  // Get current user on mount
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
-  // Use the doctor name from props
-  const doctorName = pageData?.name || "Unknown Doctor";
-  const currentDate = Date.now();
-  const saveMessagesToFirestore = async (allMessages) => {
-    if (!user) return;
+  // Load previous messages
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (!user || !doctorName) return;
+      try {
+        const messagesRef = collection(
+          db,
+          `Messaging/${user.uid}/doctors/${doctorName}/chats/chat/messages`
+        );
+        const q = query(messagesRef, orderBy("__name__"));
+        const querySnapshot = await getDocs(q);
+
+        const loadedMessages = querySnapshot.docs.map(doc => doc.data());
+        setMessages(loadedMessages);
+      } catch (error) {
+        console.error("Error loading messages:", error);
+      }
+    };
+
+    fetchMessages();
+  }, [db, user, doctorName]);
+
+  const saveMessage = async (text, isCurrentUser) => {
+    if (!user || !doctorName) return;
   
-    const messagingPath = `Messaging/${user.uid}/${doctorName}`;
+    const timestamp = Date.now().toString();
+    const messageData = {
+      text,
+      isCurrentUser,
+      timestamp: new Date().toISOString()
+    };
   
-    // Save message array to the Messages document
-    const messagesRef = doc(db, messagingPath, "Messages");
-    await setDoc(messagesRef, {
-      messages: allMessages,
-      lastUpdated: new Date()
-    });
+    const messageDocRef = doc(
+      db,
+      "Messaging",
+      user.uid,
+      "doctors",
+      doctorName,
+      "chats",
+      "chat",
+      "messages",
+      timestamp
+    );
   
-    // Update quickInfo with the latest message
-    const lastMessageText = allMessages[allMessages.length - 1]?.text || "";
-    const quickInfoRef = doc(db, messagingPath, "quickInfo");
-    await setDoc(quickInfoRef, {
-      lastMessage: lastMessageText,
-      timestamp: new Date()
-    }, { merge: true });
-  };
+    await setDoc(messageDocRef, messageData);
   
+    // ✅ Correct quickInfo document reference
+    const quickInfoRef = doc(
+      db,
+      "Messaging",
+      user.uid,
+      "doctors",
+      doctorName,
+      "quickInfo",
+      "info"
+    );
+  
+    await setDoc(
+      quickInfoRef,
+      {
+        lastMessage: text,
+        timestamp: new Date()
+      },
+      { merge: true }
+    );
+  };  
 
   const sendMessage = async () => {
     if (inputValue.trim() === "") return;
 
-    const userMessage = { text: inputValue, isCurrentUser: true };
+    const userMessage = {
+      text: inputValue.trim(),
+      isCurrentUser: true,
+      timestamp: new Date().toISOString()
+    };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInputValue("");
     setIsLoading(true);
 
-    // Save after user message
-    await saveMessagesToFirestore(updatedMessages);
+    await saveMessage(userMessage.text, true);
 
-    // Simulate responder reply
     setTimeout(async () => {
       const reply = {
         text: "This is a response from the other user.",
-        isCurrentUser: false
+        isCurrentUser: false,
+        timestamp: new Date().toISOString()
       };
       const allMessages = [...updatedMessages, reply];
       setMessages(allMessages);
       setIsLoading(false);
 
-      // Save after reply
-      await saveMessagesToFirestore(allMessages);
+      await saveMessage(reply.text, false);
     }, 1000);
   };
 
@@ -99,7 +149,7 @@ function Chatboxwithdoctor({ setPage, pageData }) {
         >
           ←
         </span>
-        <h2 style={{ animation: "slideIn 1s" }}>Chat with Doctor</h2>
+        <h2 style={{ animation: "slideIn 1s" }}>Chat with {doctorName}</h2>
       </div>
 
       <div id="chat-container">
