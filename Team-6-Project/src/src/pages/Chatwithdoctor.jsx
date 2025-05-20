@@ -30,22 +30,26 @@ function Chatboxwithdoctor({ setPage, pageData }) {
   const doctorName = pageData?.name || "Unknown Doctor";
   const currentDate = Date.now();
   const saveMessagesToFirestore = async (allMessages) => {
-    console.log(user.uid);
-    console.log(doctorName);
     if (!user) return;
-
-    // TODO: error for some reason
-    const finalDocRef = doc(
-      db,
-      "Messaging", user.uid,
-      doctorName, "Messages"
-    );    
-
-    await setDoc(finalDocRef, {
+  
+    const messagingPath = `Messaging/${user.uid}/${doctorName}`;
+  
+    // Save message array to the Messages document
+    const messagesRef = doc(db, messagingPath, "Messages");
+    await setDoc(messagesRef, {
       messages: allMessages,
       lastUpdated: new Date()
     });
+  
+    // Update quickInfo with the latest message
+    const lastMessageText = allMessages[allMessages.length - 1]?.text || "";
+    const quickInfoRef = doc(db, messagingPath, "quickInfo");
+    await setDoc(quickInfoRef, {
+      lastMessage: lastMessageText,
+      timestamp: new Date()
+    }, { merge: true });
   };
+  
 
   const sendMessage = async () => {
     if (inputValue.trim() === "") return;
