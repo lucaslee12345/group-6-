@@ -167,7 +167,7 @@ function Chatboxwithdoctor({ setPage, pageData }) {
           placeholder="Type your message..."
           style={{
             flex: 1,
-            padding: "10px",
+            padding: "5px",
             borderRadius: "8px",
             border: "1px solid #ccc",
             fontSize: "1em",

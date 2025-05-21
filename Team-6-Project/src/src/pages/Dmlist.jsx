@@ -54,7 +54,6 @@ function Dmlist({ setPage }) {
 
   const DoctorBox = ({ doctorName, location, specialty, lastMessage }) => (
     <div
-      className="doctor-box"
       onClick={() =>
         setPage('chatwithdoctor', {
           name: doctorName,
@@ -62,25 +61,74 @@ function Dmlist({ setPage }) {
           specialty
         })
       }
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#e6f2ff',
+        borderRadius: '12px',
+        padding: '15px',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+        marginBottom: '15px',
+        cursor: 'pointer',
+        transition: 'transform 0.2s'
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
     >
-      <img src={profilepicture} width="60" height="60" style={{ borderRadius: '50%', marginRight: '15px' }} />
-      <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-        <p style={{ fontWeight: 'bold', margin: 0 }}>{doctorName}</p>
-        <p style={{ margin: 0 }}>{location}</p>
-        <p style={{ margin: 0 }}>{specialty}</p>
-        <p style={{ margin: 0 }}>{lastMessage}</p>
+      <img
+        src={profilepicture}
+        width="60"
+        height="60"
+        style={{ borderRadius: '50%', marginRight: '15px' }}
+        alt="Doctor"
+      />
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <span style={{ fontWeight: 'bold', fontSize: '1.3em', marginBottom: '4px' }}>{doctorName}</span>
+        <span style={{ fontSize: '0.95em', color: '#555' }}>{specialty}</span>
+        <span style={{ fontSize: '0.85em', color: '#777', marginTop: '6px' }}>{lastMessage}</span>
       </div>
     </div>
   );
 
   return (
-    <div id="container44">
+    <div id="container44" style={{ height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      {/* Profile Icon */}
       <img src={profilepicture} className="profile-icon" alt="Profile" />
-      <h2 style={{ textAlign: 'center' }}>Dr.Finder</h2>
-      <h1>(WIP)</h1>
-      <div style={{ padding: '20px' }}>
+
+      {/* Dr.Finder Heading */}
+      <div style={{ padding: '20px', textAlign: 'center' }}>
+        <h2>Dr.Finder</h2>
+      </div>
+
+      {/* Scrollable Message List */}
+      <div
+        style={{
+          padding: '20px',
+          flex: 1,
+          overflowY: 'auto'
+        }}
+      >
         {previousChats.length === 0 ? (
-          <div className="no-messages">No messages have been started yet.</div>
+          <div
+            style={{
+              textAlign: 'center',
+              color: '#666',
+              fontSize: '1em',
+              padding: '30px 20px',
+              backgroundColor: '#f9f9f9',
+              borderRadius: '12px',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+              marginTop: '20px',
+              animation: 'fadeIn 0.5s ease-in-out'
+            }}
+          >
+            <p style={{ fontSize: '1.2em', fontWeight: 'bold', marginBottom: '8px' }}>
+              No messages yet.
+            </p>
+            <p style={{ fontSize: '0.95em', color: '#999' }}>
+              Start chatting with a doctor from the "Find Doctor" section.
+            </p>
+          </div>
         ) : (
           previousChats.map((chat, i) => (
             <DoctorBox
@@ -93,6 +141,8 @@ function Dmlist({ setPage }) {
           ))
         )}
       </div>
+
+      {/* Navigation Menu */}
       <div id="newnavbar">
         <button onClick={togglePanel}>☰</button>
         <div className={`sliding-panel ${isPanelVisible ? 'visible' : ''}`}>
