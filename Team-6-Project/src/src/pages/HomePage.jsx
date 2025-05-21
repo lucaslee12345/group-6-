@@ -19,9 +19,6 @@ function HomePage({ setPage }) {
             {/* description */}
             <div id="infoBox">
                 <div>
-                    
-                </div>
-                <div>
                     <h3>About Us</h3>
                     <p>We are a non-profit organization that aims to 
                     help people gain access to medical advice from 
