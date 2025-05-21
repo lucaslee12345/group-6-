@@ -63,11 +63,10 @@ function Chatboxwithdoctor({ setPage, pageData }) {
     const messageData = {
       text,
       isCurrentUser,
-      timestamp: new Date().toISOString()
+      timestamp
     };
 
     try {
-      // Save message
       const messageDocRef = doc(
         db,
         "Messaging",
@@ -81,7 +80,6 @@ function Chatboxwithdoctor({ setPage, pageData }) {
       );
       await setDoc(messageDocRef, messageData);
 
-      // Update quickInfo
       const quickInfoRef = doc(
         db,
         "Messaging",
@@ -143,23 +141,52 @@ function Chatboxwithdoctor({ setPage, pageData }) {
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.isCurrentUser ? "right" : "left"}`}>
             <span>{msg.text}</span>
-            <div style={{ fontSize: "0.7em", color: "#888" }}>{msg.timestamp}</div>
           </div>
         ))}
         {isLoading && (
           <div className="message left"><span>Typing...</span></div>
         )}
       </div>
-      <div id="input-container">
+      <div
+        id="input-container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "white",
+          padding: "10px",
+          borderTop: "1px solid #ccc",
+          borderRadius: "10px",
+          gap: "10px"
+        }}
+      >
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Type your message..."
+          style={{
+            flex: 1,
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "1em",
+            textAlign: "left"  // Ensures text is left-aligned
+          }}
         />
-        <button onClick={sendMessage} disabled={!inputValue.trim() || isLoading}>
-          {isLoading ? "Loading..." : "Send"}
+        <button
+          onClick={sendMessage}
+          disabled={!inputValue.trim() || isLoading}
+          style={{
+            padding: "10px 16px",
+            borderRadius: "8px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            cursor: "pointer"
+          }}
+        >
+          Send
         </button>
       </div>
     </div>
