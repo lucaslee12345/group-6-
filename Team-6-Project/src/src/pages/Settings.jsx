@@ -304,7 +304,7 @@ const Settings = ({ setPage }) => {
         <button onClick={() => openPopup("password")}>Change Password</button>
         <button onClick={() => openPopup("username")}>Change Username</button>
         <button onClick={handleLogout}>Log Out</button>
-        <button className="delete" onClick={() => openPopup("delete")}>Delete Account</button>
+        {/* <button className="delete" onClick={() => openPopup("delete")}>Delete Account</button> */}
       </div>
 
       {/* Popup Modals */}
@@ -336,7 +336,7 @@ const Settings = ({ setPage }) => {
         </div>
       )}
 
-      {popup === "delete" && (
+      {/* {popup === "delete" && (
         <div className="popup-overlay">
           <div className="popup">
             <span className="close" onClick={closePopup}>&times;</span>
@@ -346,7 +346,7 @@ const Settings = ({ setPage }) => {
             <button className="delete-btn" onClick={submitDeleteAccount}>Delete Account</button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
